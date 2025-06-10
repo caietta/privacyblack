@@ -41,7 +41,7 @@ export default function CheckoutPage() {
 
     // Redireciona para checkout externo
     const checkoutExternoUrl =
-      "https://pay.novopagaamentoseguro.com/checkout/0cb05b76-1cc6-4522-bb53-a37d067f1440"; // Substitua pela URL do seu checkout externo
+      "https://pay.privacyclub.space/checkout/0cb05b76-1cc6-4522-bb53-a37d067f1440"; // Substitua pela URL do seu checkout externo
     window.location.href = checkoutExternoUrl;
   };
 

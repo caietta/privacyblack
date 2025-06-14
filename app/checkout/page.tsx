@@ -107,22 +107,8 @@ export default function CheckoutPage() {
       try {
         // Tenta usar a API local primeiro, se falhar usa a API externa
         let resposta;
-        try {
-          resposta = await fetch(`/api/pix?id=${id}`);
-        } catch (localError) {
-          // API local falhou, tentando API externa
-          resposta = await fetch(
-            `https://api.pushinpay.com.br/api/transactions/${id}`,
-            {
-              headers: {
-                Authorization:
-                  "Bearer 28039|PZ7Icht09wi47SY7cp2ZoAgbvQzJWMNeTr1gI1EX9940be6d",
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        }
+
+        resposta = await fetch(`/api/pix?id=${id}`);
 
         const dados = await resposta.json();
         // Verificação de status de pagamento

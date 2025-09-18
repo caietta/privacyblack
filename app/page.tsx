@@ -21,6 +21,25 @@ export default function PresellPage() {
           fbq('track', 'PageView');
         `}
       </Script>
+      
+      {/* Telegram Web App Integration */}
+      <Script id="telegram-webapp-init" strategy="afterInteractive">
+        {`
+          if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            tg.ready();
+            tg.expand();
+            
+            // Hide main button on landing page
+            tg.MainButton.hide();
+            
+            // Set theme colors
+            document.documentElement.style.setProperty('--tg-bg-color', tg.themeParams.bg_color || '#000000');
+            document.documentElement.style.setProperty('--tg-text-color', tg.themeParams.text_color || '#ffffff');
+          }
+        `}
+      </Script>
+      
       <noscript>
         <img
           height="1"

@@ -6,72 +6,75 @@ import Script from "next/script";
 export default function PresellPage() {
   return (
     <>
-      {/* UTMify Pixel Script */}
-      <Script id="utmify-pixel" strategy="afterInteractive">
+      {/* Meta Pixel Code */}
+      <Script id="meta-pixel" strategy="afterInteractive">
         {`
-          window.pixelId = "684221c6cfee73716eb249b4";
-          var a = document.createElement("script");
-          a.setAttribute("async", "");
-          a.setAttribute("defer", "");
-          a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-          document.head.appendChild(a);
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '1188608602540337');
+          fbq('track', 'PageView');
         `}
       </Script>
-
       <noscript>
         <img
           height="1"
           width="1"
           style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1207117403912525&ev=PageView&noscript=1"
+          src="https://www.facebook.com/tr?id=1188608602540337&ev=PageView&noscript=1"
         />
       </noscript>
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="max-w-2xl mx-auto text-center space-y-8">
           {/* Logo/Brand */}
           <div className="space-y-4">
             <div className="flex items-center justify-center gap-3">
               <Image
-                alt="PrivacyClub Icon"
+                alt="Privacy Black Icon"
                 width={48}
                 height={48}
-                src="./logoSVGteste.svg"
+                src="./image.png"
                 className="object-contain"
               />
-              <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight italic font-['Poppins',sans-serif]">
-                PrivacyClub
+              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight italic font-['Poppins',sans-serif]">
+                Privacy Black
               </h1>
             </div>
-            <p className="text-slate-600 text-lg md:text-xl">
+            <p className="text-gray-100 text-lg md:text-xl">
               A melhor experiência em conteúdo premium do Brasil
             </p>
           </div>
 
           {/* Main Content */}
           <div className="space-y-6">
-            <h2 className="text-2xl md:text-3xl font-semibold text-slate-800">
+            <h2 className="text-2xl md:text-3xl font-semibold text-white">
               Descubra mais de 3 mil modelos exclusivas
             </h2>
-            <p className="text-slate-600 max-w-lg mx-auto leading-relaxed">
+            <p className="text-gray-100 max-w-lg mx-auto leading-relaxed">
               Mais de 100 mil mídias premium te esperando.
             </p>
 
             {/* Features preview */}
             <div className="grid grid-cols-2 gap-4 max-w-md mx-auto text-sm">
-              <div className="flex items-center gap-2 text-slate-700">
+              <div className="flex items-center gap-2 text-gray-100">
                 <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                 <span>+3.000 Modelos</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-700">
+              <div className="flex items-center gap-2 text-gray-100">
                 <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                 <span>+100 Mil Mídias</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-700">
+              <div className="flex items-center gap-2 text-gray-100">
                 <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                 <span>Perfis Verificados</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-700">
+              <div className="flex items-center gap-2 text-gray-100">
                 <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                 <span>Acesso Imediato</span>
               </div>
@@ -90,18 +93,18 @@ export default function PresellPage() {
             </Link>
 
             {/* Guarantee badge */}
-            <div className="bg-green-50 border border-green-200 rounded-full px-4 py-2 inline-block">
+            <div className="bg-green-900 border border-green-500 rounded-full px-4 py-2 inline-block">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full flex items-center justify-center">
+                <div className="w-3 h-3 bg-green-400 rounded-full flex items-center justify-center">
                   <svg
-                    className="h-2 w-2 text-white"
+                    className="h-2 w-2 text-green-900"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
                   </svg>
                 </div>
-                <span className="text-xs font-medium text-green-700">
+                <span className="text-xs font-medium text-green-100">
                   30 dias de garantia • Reembolso total
                 </span>
               </div>
@@ -109,9 +112,6 @@ export default function PresellPage() {
           </div>
 
           {/* Subtle accent */}
-          <div className="pt-8">
-            <div className="w-16 h-1 bg-slate-300 mx-auto rounded-full"></div>
-          </div>
         </div>
       </div>
     </>

@@ -129,7 +129,7 @@ const createPostItems = (modelData: ModelData) => {
   return items;
 };
 
-function PrivacyClubPageContent() {
+function PrivacyBlackPageContent() {
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -161,10 +161,10 @@ function PrivacyClubPageContent() {
   // Se não há modelo carregada, mostra loading
   if (!currentModel) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Carregando...</p>
+          <p className="text-gray-200">Carregando...</p>
         </div>
       </div>
     );
@@ -185,7 +185,7 @@ function PrivacyClubPageContent() {
   const currentItems = activeTab === "media" ? getFilteredMedia() : postItems;
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-black text-white">
       {/* HEADER FIXO SUPERIOR - Banner de verificação do Telegram */}
       <div className="fixed top-0 left-0 w-full bg-black h-[35px] flex items-center justify-center z-[1000] shadow-md overflow-hidden">
         <div className="flex items-center gap-2">
@@ -204,13 +204,13 @@ function PrivacyClubPageContent() {
       {/* Espaço para compensar o header fixo */}
       <div className="pt-[35px]">
         {/* Header de navegação */}
-        <header className="bg-white border-b border-gray-200 px-4 sticky top-[35px] z-40 h-[65px] flex items-center">
+        <header className="bg-black border-b border-gray-700 px-4 sticky top-[35px] z-40 h-[65px] flex items-center">
           <div className="flex items-center justify-between w-full">
             {" "}
             {/* Botão voltar */}
             <button
               onClick={() => router.push("/inicio")}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 transition-all duration-200 hover:scale-105 hover:bg-gray-100 text-gray-600"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 transition-all duration-200 hover:scale-105 hover:bg-gray-800 text-gray-300"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>{" "}
@@ -220,8 +220,8 @@ function PrivacyClubPageContent() {
                 <div className="flex items-center gap-[0.1rem] min-w-fit">
                   <div className="flex items-center justify-center w-8 h-8">
                     <Image
-                      src="/logoSVGteste.svg"
-                      alt="PrivacyClub Icon"
+                      src="/image.png"
+                      alt="Privacy Black Icon"
                       width={32}
                       height={32}
                       className="object-contain"
@@ -229,8 +229,7 @@ function PrivacyClubPageContent() {
                   </div>
                   <div className="flex flex-col">
                     <h1 className="text-2xl font-bold italic leading-tight font-['Poppins',sans-serif] whitespace-nowrap">
-                      <span className="text-[#333333]">PrivacyClub</span>
-                      <span className="text-[#FF6A31]">BR</span>
+                      <span className="text-white">Privacy Black</span>
                     </h1>
                   </div>
                 </div>
@@ -238,7 +237,7 @@ function PrivacyClubPageContent() {
             </div>{" "}
             {/* Botão direito (globo) */}
             <div className="flex items-center relative">
-              <button className="gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-16 w-16 flex items-center justify-center transition-all duration-200 hover:scale-105 text-gray-600">
+              <button className="gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-16 w-16 flex items-center justify-center transition-all duration-200 hover:scale-105 text-gray-300">
                 <Globe className="h-6 w-6" />
               </button>
             </div>
@@ -316,7 +315,7 @@ function PrivacyClubPageContent() {
           {" "}
           {/* Título e Verificado */}
           <div className="flex items-center gap-1 mb-1">
-            <h1 className="text-xl font-bold text-[#67748e]">
+            <h1 className="text-xl font-bold text-white">
               {currentModel.name}
             </h1>
             {currentModel.verified && (
@@ -324,14 +323,14 @@ function PrivacyClubPageContent() {
             )}
           </div>
           {/* Username e mensagem */}
-          <p className="text-[#67748e] mb-2">{currentModel.username}</p>
-          <p className="text-[#67748e] mb-4">
+          <p className="text-gray-300 mb-2">{currentModel.username}</p>
+          <p className="text-gray-300 mb-4">
             Assine qualquer plano e desbloqueie todas modelos do site!!
           </p>
           <div className="h-[0.3rem] bg-gray-100 my-4 -mx-4" />
           {/* Botão de Assinatura */}
           <div className="mb-0">
-            <h3 className="text-[16px] font-medium text-black mb-3">
+            <h3 className="text-[16px] font-medium text-white mb-3">
               Assinaturas
             </h3>{" "}
             <div
@@ -354,8 +353,8 @@ function PrivacyClubPageContent() {
               onClick={() => setActiveTab("posts")}
               className={`flex-1 py-3 text-center font-medium rounded-t-lg focus:outline-none transition-all duration-200 ${
                 activeTab === "posts"
-                  ? "bg-[#FCEEEE] text-[#D94B3D] scale-[1.02]"
-                  : "bg-[#F6F6F6] text-[#707070] hover:bg-[#EEEEEE]"
+                  ? "bg-orange-900 text-orange-200 scale-[1.02]"
+                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
               }`}
             >
               {currentModel.posts_count} postagens
@@ -364,8 +363,8 @@ function PrivacyClubPageContent() {
               onClick={() => setActiveTab("media")}
               className={`flex-1 py-3 text-center font-medium rounded-t-lg focus:outline-none transition-all duration-200 ${
                 activeTab === "media"
-                  ? "bg-[#FCEEEE] text-[#D94B3D] scale-[1.02]"
-                  : "bg-[#F6F6F6] text-[#707070] hover:bg-[#EEEEEE]"
+                  ? "bg-orange-900 text-orange-200 scale-[1.02]"
+                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
               }`}
             >
               {currentModel.total_media_count} mídias
@@ -388,8 +387,8 @@ function PrivacyClubPageContent() {
                   onClick={() => setActiveFilter("all")}
                   className={`rounded-full px-3 py-2 text-[12px] md:px-4 md:py-1 md:text-[16px] font-semibold whitespace-nowrap select-none cursor-pointer transition-all duration-200 ${
                     activeFilter === "all"
-                      ? "bg-[#FEF3F1] text-[#F58673] scale-105 shadow-sm"
-                      : "bg-[#F4F4F4] text-[#66748E] hover:bg-[#EEEEEE] hover:scale-105"
+                      ? "bg-orange-900 text-orange-200 scale-105 shadow-sm"
+                      : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:scale-105"
                   }`}
                 >
                   {currentModel.total_media_count} todos
@@ -398,8 +397,8 @@ function PrivacyClubPageContent() {
                   onClick={() => setActiveFilter("photos")}
                   className={`rounded-full px-3 py-2 text-[12px] md:px-4 md:py-1 md:text-[16px] font-light whitespace-nowrap select-none cursor-pointer transition-all duration-200 ${
                     activeFilter === "photos"
-                      ? "bg-[#FEF3F1] text-[#F58673] scale-105 shadow-sm font-semibold"
-                      : "bg-[#F4F4F4] text-[#66748E] hover:bg-[#EEEEEE] hover:scale-105"
+                      ? "bg-orange-900 text-orange-200 scale-105 shadow-sm font-semibold"
+                      : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:scale-105"
                   }`}
                 >
                   {currentModel.photos_count} fotos
@@ -408,8 +407,8 @@ function PrivacyClubPageContent() {
                   onClick={() => setActiveFilter("videos")}
                   className={`rounded-full px-3 py-2 text-[12px] md:px-4 md:py-1 md:text-[16px] font-light whitespace-nowrap select-none cursor-pointer transition-all duration-200 ${
                     activeFilter === "videos"
-                      ? "bg-[#FEF3F1] text-[#F58673] scale-105 shadow-sm font-semibold"
-                      : "bg-[#F4F4F4] text-[#66748E] hover:bg-[#EEEEEE] hover:scale-105"
+                      ? "bg-orange-900 text-orange-200 scale-105 shadow-sm font-semibold"
+                      : "bg-gray-800 text-gray-300 hover:bg-gray-700 hover:scale-105"
                   }`}
                 >
                   {currentModel.videos_count} vídeos
@@ -465,7 +464,7 @@ function PrivacyClubPageContent() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-1">
-                    <span className="font-semibold text-[16px] text-[#67748e]">
+                    <span className="font-semibold text-[16px] text-gray-300">
                       {currentModel.name}
                     </span>
                     {currentModel.verified && (
@@ -487,11 +486,11 @@ function PrivacyClubPageContent() {
                       </span>
                     )}
                   </div>
-                  <p className="text-[#67748e] text-sm">
+                  <p className="text-gray-300 text-sm">
                     {currentModel.username}
                   </p>
                 </div>
-                <button className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-8 w-8 text-[#67748e] hover:bg-gray-100 transition-all duration-200 hover:scale-110">
+                <button className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-8 w-8 text-gray-300 hover:bg-gray-800 transition-all duration-200 hover:scale-110">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -548,7 +547,7 @@ function PrivacyClubPageContent() {
                 <div className="flex items-center gap-4">
                   <button
                     onClick={handlePremiumAction}
-                    className="text-[#67748e] transition-all duration-200 hover:scale-110"
+                    className="text-gray-300 transition-all duration-200 hover:scale-110"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -567,7 +566,7 @@ function PrivacyClubPageContent() {
                   </button>
                   <button
                     onClick={handlePremiumAction}
-                    className="text-[#67748e] transition-all duration-200 hover:scale-110"
+                    className="text-gray-300 transition-all duration-200 hover:scale-110"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -587,7 +586,7 @@ function PrivacyClubPageContent() {
                 </div>
                 <button
                   onClick={handlePremiumAction}
-                  className="text-[#67748e] transition-all duration-200 hover:scale-110"
+                  className="text-gray-300 transition-all duration-200 hover:scale-110"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -609,7 +608,7 @@ function PrivacyClubPageContent() {
           )}
           {/* Banner de conteúdo exclusivo */}
           <div className="mt-6 mb-4 px-4">
-            <div className="p-4 bg-gradient-to-r from-orange-50 to-pink-50 border border-orange-200 rounded-xl shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="p-4 bg-gradient-to-r from-gray-800 to-gray-900 border border-gray-600 rounded-xl shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 mt-0.5">
                   <div className="h-8 w-8 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center">
@@ -617,10 +616,10 @@ function PrivacyClubPageContent() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-1">
+                  <h3 className="text-sm font-semibold text-white mb-1">
                     Conteúdo Exclusivo
                   </h3>
-                  <p className="text-xs text-gray-600 leading-relaxed">
+                  <p className="text-xs text-gray-200 leading-relaxed">
                     Para visualizar todas as postagens e mídias, você precisa
                     assinar um dos nossos planos premium.
                   </p>
@@ -652,7 +651,7 @@ function PrivacyClubPageContent() {
                 role="dialog"
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
-                className="fixed left-1/2 top-1/2 z-50 grid w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 bg-white rounded-xl p-6 shadow-lg sm:w-full animate-in fade-in slide-in-from-bottom-4 duration-300"
+                className="fixed left-1/2 top-1/2 z-50 grid w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 bg-gray-900 rounded-xl p-6 shadow-lg sm:w-full animate-in fade-in slide-in-from-bottom-4 duration-300"
               >
                 <h2 id="modal-title" className="sr-only">
                   Conteúdo Exclusivo
@@ -665,12 +664,12 @@ function PrivacyClubPageContent() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       Conteúdo Exclusivo!
                     </h3>
                     <p
                       id="modal-description"
-                      className="text-sm text-gray-600 leading-relaxed"
+                      className="text-sm text-gray-200 leading-relaxed"
                     >
                       Para visualizar todas as mídias e postagens de{" "}
                       <b>todas modelos</b>, você precisa assinar um dos nossos
@@ -689,7 +688,7 @@ function PrivacyClubPageContent() {
                   </button>
                   <button
                     onClick={() => setIsPremiumModalOpen(false)}
-                    className="px-4 py-2 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                    className="px-4 py-2 text-gray-300 text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors duration-200"
                   >
                     Fechar
                   </button>
@@ -716,10 +715,10 @@ function LoadingFallback() {
 }
 
 // Main export with Suspense wrapper
-export default function PrivacyClubPage() {
+export default function PrivacyBlackPage() {
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <PrivacyClubPageContent />
+      <PrivacyBlackPageContent />
     </Suspense>
   );
 }

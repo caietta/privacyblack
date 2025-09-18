@@ -51,7 +51,7 @@ const allModels = (modelsData as Model[])
 // COMPONENTE PRINCIPAL
 // ===================================================================
 
-export default function PrivacyClubPage() {
+export default function PrivacyBlackPage() {
   // Estados locais para controle da interface
   const [searchTerm, setSearchTerm] = useState(""); // Termo de pesquisa das modelos
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false); // Controle do modal de idiomas
@@ -108,7 +108,7 @@ export default function PrivacyClubPage() {
           src="https://www.facebook.com/tr?id=1207117403912525&ev=PageView&noscript=1"
         />
       </noscript>
-      <div className="min-h-screen bg-white text-gray-900">
+      <div className="min-h-screen bg-black text-white">
         {/* =============================================================== */}
         {/* HEADER FIXO SUPERIOR - Banner de verificação do Telegram */}
         {/* =============================================================== */}
@@ -158,29 +158,29 @@ export default function PrivacyClubPage() {
           {/* =============================================================== */}
           {/* HEADER PRINCIPAL - Logo, nome da marca e botão de idioma */}
           {/* =============================================================== */}
-          <div className="relative w-full flex flex-col items-center bg-white text-gray-800">
-            <header className="bg-white border-b border-gray-200 px-4 h-[65px] flex items-center">
+          <div className="relative w-full flex flex-col items-center bg-black text-white">
+            <header className="bg-black border-b border-gray-700 px-4 h-[65px] flex items-center">
               <div className="flex items-center justify-between w-full">
                 {/* Espaço reservado à esquerda para balanceamento */}
                 <div className="w-10 h-10" />
 
-                {/* Logo central com nome da marca PrivacyClub */}
+                {/* Logo central com nome da marca Privacy Black */}
                 <div className="flex items-center justify-center flex-1">
                   <button className="transition-all duration-200 hover:scale-105">
                     <div className="flex items-center gap-[0.3rem]">
                       <div className="flex items-center justify-center">
                         <img
-                          alt="PrivacyClub Icon"
+                          alt="Privacy Black Icon"
                           width={32}
                           height={32}
                           decoding="async"
                           className="object-contain"
-                          src="./logoSVGteste.svg"
+                          src="./image.png"
                         />
                       </div>
                       <div className="flex flex-col">
                         <h1 className="text-2xl font-bold leading-tight italic font-['Poppins',sans-serif]">
-                          <span className="text-[#333333]">PrivacyClub</span>
+                          <span className="text-white">Privacy Black</span>
                         </h1>
                       </div>
                     </div>
@@ -204,7 +204,7 @@ export default function PrivacyClubPage() {
                       strokeWidth={2}
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="text-gray-600"
+                      className="text-gray-200"
                     >
                       <circle cx="12" cy="12" r="10" />
                       <line x1="2" y1="12" x2="22" y2="12" />
@@ -219,7 +219,7 @@ export default function PrivacyClubPage() {
             {/* CHAMADA PRINCIPAL PARA PREMIUM - Texto motivacional */}
             {/* =============================================================== */}
             <div className="text-center mb-6 pt-2 px-4">
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-200 leading-relaxed">
                 {t("premium.unlock")} <br />
                 <strong>{t("models.medias")}</strong>
                 <br />
@@ -284,19 +284,19 @@ export default function PrivacyClubPage() {
           {/* =============================================================== */}
           <div className="mb-2 mt-6">
             <div className="relative">
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
+              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
                 type="text"
                 placeholder={t("search.models")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pr-10 bg-gray-100 border-gray-300 text-gray-900 placeholder-gray-500 focus:border-orange-500 rounded-full"
+                className="pr-10 bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-orange-500 rounded-full"
               />
             </div>
 
             {/* Contador de resultados da pesquisa */}
             {searchTerm && (
-              <p className="text-gray-600 text-sm mt-2">
+              <p className="text-gray-200 text-sm mt-2">
                 {filteredModels.length} {t("models.found")}
               </p>
             )}
@@ -305,9 +305,9 @@ export default function PrivacyClubPage() {
           {/* =============================================================== */}
           {/* BANNER PREMIUM MODELS - Indicador de modelos no plano premium */}
           {/* =============================================================== */}
-          <div className="bg-white pt-2 py-4 border-t  border-b border-gray-200 flex justify-center">
+          <div className="bg-black pt-2 py-4 border-t border-b border-gray-700 flex justify-center">
             <div className="border-b-2 border-gray-900 pb-2 px-4">
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-white">
                 +3.000 Modelos no Premium
               </span>
             </div>
@@ -390,10 +390,10 @@ export default function PrivacyClubPage() {
                           </svg>
                         </div>
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                          <h3 className="text-lg font-semibold text-white mb-1">
                             Encontramos perfis ocultos!
                           </h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-gray-200">
                             Descobrimos conteúdos ocultos relacionados à sua
                             busca desta modelo!
                           </p>
@@ -456,8 +456,8 @@ export default function PrivacyClubPage() {
                   </svg>
                 </button>
               </DialogTrigger>
-              <DialogContent className="p-0 max-w-sm w-full bg-white rounded-xl border-0 shadow-lg">
-                <div className="relative overflow-hidden bg-white rounded-xl">
+              <DialogContent className="p-0 max-w-sm w-full bg-gray-900 rounded-xl border-0 shadow-lg">
+                <div className="relative overflow-hidden bg-gray-900 rounded-xl">
                   {/* Banner */}
                   <div className="relative h-32 w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-orange-600 via-red-500 to-pink-500 blur-[15px] brightness-75 scale-[1.2]"></div>
@@ -525,7 +525,7 @@ export default function PrivacyClubPage() {
                   <div className="pt-10 px-6 pb-6">
                     <div className="mb-4">
                       <div className="flex items-center gap-2 mb-1">
-                        <h2 className="text-xl font-bold text-gray-800 capitalize">
+                        <h2 className="text-xl font-bold text-white capitalize">
                           {searchTerm}
                         </h2>
                         <svg
@@ -536,11 +536,11 @@ export default function PrivacyClubPage() {
                           <path d="M190.6 71.4C203 47.9 227.7 32 256 32s53 15.9 65.4 39.4c3.6 6.8 11.5 10.1 18.8 7.8c25.4-7.8 54.1-1.6 74.1 18.4s26.2 48.7 18.4 74.1c-2.3 7.3 1 15.2 7.8 18.8C464.1 203 480 227.7 480 256s-15.9 53-39.4 65.4c-6.8 3.6-10.1 11.5-7.8 18.8c7.8 25.4 1.6 54.1-18.4 74.1s-48.7 26.2-74.1 18.4c-7.3-2.3-15.2 1-18.8 7.8C309 464.1 284.3 480 256 480s-53-15.9-65.4-39.4c-3.6-6.8-11.5-10.1-18.8-7.8c-25.4 7.8-54.1 1.6-74.1-18.4s-26.2-48.7-18.4-74.1c2.3-7.3-1-15.2-7.8-18.8C47.9 309 32 284.3 32 256s15.9-53 39.4-65.4c6.8-3.6 10.1-11.5 7.8-18.8c-7.8-25.4-1.6-54.1 18.4-74.1s48.7-26.2 74.1-18.4c7.3 2.3 15.2-1 18.8-7.8zM363.3 203.3c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L224 297.4l-52.7-52.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l64 64c6.2 6.2 16.4 6.2 22.6 0l128-128z" />
                         </svg>
                       </div>
-                      <p className="text-sm text-gray-600 mb-3">
+                      <p className="text-sm text-gray-200 mb-3">
                         @{searchTerm.toLowerCase()}
                       </p>
 
-                      <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-sm text-gray-700">
+                      <div className="bg-orange-900 border border-orange-600 rounded-lg p-4 text-sm text-orange-100">
                         <strong>Perfil Exclusivo Encontrado!</strong>
                         <br />
                         Encontramos um perfil oculto com{" "}
@@ -582,7 +582,7 @@ export default function PrivacyClubPage() {
 
                       <button
                         onClick={() => setShowHiddenProfile(false)}
-                        className="px-4 py-2 text-sm text-gray-600 rounded-lg hover:bg-gray-100 transition"
+                        className="px-4 py-2 text-sm text-gray-300 rounded-lg hover:bg-gray-800 transition"
                       >
                         Fechar
                       </button>
@@ -597,15 +597,15 @@ export default function PrivacyClubPage() {
           {/* CARD PREMIUM FINAL - Última chamada para assinatura premium */}
           {/* =============================================================== */}
           <div className="mt-8 mb-6">
-            <div className="rounded-lg border bg-card text-card-foreground overflow-hidden border-none bg-gradient-to-br from-orange-50 via-red-50 to-pink-50 shadow-xl">
+            <div className="rounded-lg border bg-card text-card-foreground overflow-hidden border-none bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 shadow-xl">
               <div className="relative p-6">
                 {/* Background overlays */}
-                <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0 opacity-10">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-500"></div>
                   <div
                     className="absolute inset-0"
                     style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
                     }}
                   ></div>
                 </div>
@@ -638,11 +638,11 @@ export default function PrivacyClubPage() {
                     </svg>
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  <h3 className="text-xl font-bold text-white mb-2">
                     Quer ver mais modelos?
                   </h3>
 
-                  <p className="text-gray-600 text-sm mb-6 leading-relaxed max-w-sm mx-auto">
+                  <p className="text-gray-200 text-sm mb-6 leading-relaxed max-w-sm mx-auto">
                     Para acessar <strong>milhares de modelos exclusivas</strong>{" "}
                     e <strong>mais de 100 mil mídias premium</strong>, assine
                     nosso plano completo!
@@ -657,7 +657,7 @@ export default function PrivacyClubPage() {
                     ].map((item) => (
                       <div
                         key={item}
-                        className="flex items-center gap-2 text-gray-700"
+                        className="flex items-center gap-2 text-gray-200"
                       >
                         <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
                         <span>{item}</span>
@@ -707,7 +707,7 @@ export default function PrivacyClubPage() {
                     </svg>
                   </button>
 
-                  <p className="text-xs text-gray-500 mt-3">
+                  <p className="text-xs text-gray-400 mt-3">
                     30 dias de garantia • Acesso imediato
                   </p>
                 </div>

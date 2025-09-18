@@ -40,8 +40,7 @@ export default function CheckoutPage() {
     }
 
     // Redireciona para checkout externo
-    const checkoutExternoUrl =
-      "https://pay.privacyclub.space/checkout/0cb05b76-1cc6-4522-bb53-a37d067f1440"; // Substitua pela URL do seu checkout externo
+    const checkoutExternoUrl = "https://go.paradisepagbr.com/l0tllshnx0"; // Substitua pela URL do seu checkout externo
     window.location.href = checkoutExternoUrl;
   };
 
@@ -291,7 +290,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-black text-white">
       {/* HEADER FIXO SUPERIOR - Banner de verificação do Telegram */}
       <div className="fixed top-0 left-0 w-full bg-black h-[35px] flex items-center justify-center z-[1000] shadow-md overflow-hidden">
         <div className="flex items-center gap-2">
@@ -308,13 +307,13 @@ export default function CheckoutPage() {
         </div>{" "}
       </div>
       {/* Header de navegação */}
-      <header className="bg-white border-b border-gray-200 px-4 sticky top-[35px] z-50 h-[65px] flex items-center animate-in fade-in duration-300">
+      <header className="bg-black border-b border-gray-700 px-4 sticky top-[35px] z-50 h-[65px] flex items-center animate-in fade-in duration-300">
         <div className="flex items-center justify-between w-full">
           {" "}
           {/* Botão Voltar */}
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 w-10 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
+            className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 w-10 hover:text-white hover:bg-gray-800 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-600"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
@@ -323,8 +322,8 @@ export default function CheckoutPage() {
             <div className="flex items-center gap-[0.3rem]">
               <div className="flex items-center justify-center">
                 <Image
-                  src="/logoSVGteste.svg"
-                  alt="PrivacyClub Icon"
+                  src="/image.png"
+                  alt="Privacy Black Icon"
                   width={32}
                   height={32}
                   className="object-contain"
@@ -332,14 +331,14 @@ export default function CheckoutPage() {
               </div>
               <div className="flex flex-col">
                 <h1 className="text-2xl font-bold italic leading-tight font-['Poppins',sans-serif]">
-                  <span className="text-gray-800">PrivacyClub</span>
+                  <span className="text-white">Privacy Black</span>
                 </h1>
               </div>
             </div>
           </div>{" "}
           {/* Preço */}
           <div className="text-right">
-            <div className="text-xs text-gray-500">Pagando</div>
+            <div className="text-xs text-gray-300">Pagando</div>
             <div className="text-sm font-bold text-orange-600">
               R${" "}
               {paymentData?.planoInfo
@@ -361,7 +360,7 @@ export default function CheckoutPage() {
         />
       </div>{" "}
       {/* Indicador de progresso */}
-      <div className="bg-white px-4 py-3 border-b border-gray-200 animate-in slide-in-from-top duration-500">
+      <div className="bg-black px-4 py-3 border-b border-gray-700 animate-in slide-in-from-top duration-500">
         {/* Bolinhas de progresso */}
         <div className="flex items-center justify-center space-x-2">
           {/* Etapa 1 */}
@@ -387,14 +386,14 @@ export default function CheckoutPage() {
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
               showPayment
                 ? "bg-orange-500 text-white scale-105"
-                : "bg-gray-200 text-gray-500"
+                : "bg-gray-700 text-gray-400"
             }`}
           >
             2
           </div>
         </div>{" "}
         {/* Descrições abaixo */}
-        <div className="flex justify-between mt-2 text-xs text-gray-600">
+        <div className="flex justify-between mt-2 text-xs text-gray-300">
           <span>Confirmar dados</span>
           <span>Pagamento</span>
         </div>
@@ -410,13 +409,13 @@ export default function CheckoutPage() {
             {/* Bloco do plano premium */}
             <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-300 hover:shadow-lg transition-shadow">
               <div className="text-center space-y-3">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-white">
                   Plano Mensal Premium
                 </h3>
                 <div className="text-3xl font-bold text-orange-600">
                   R$ 19,90
                 </div>
-                <div className="text-sm text-gray-600 space-y-1">
+                <div className="text-sm text-gray-200 space-y-1">
                   <p>✅ +3.000 Modelos no Premium</p>
                   <p>✅ +100 mil mídias exclusivas</p>
                   <p>✅ Acesso imediato após pagamento</p>
@@ -463,7 +462,7 @@ export default function CheckoutPage() {
               >
                 Confirmar dados e continuar
               </button>
-              <button className="inline-flex items-center justify-center gap-2 text-sm border bg-background h-10 px-4 w-full border-gray-300 text-gray-700 font-medium py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+              <button className="inline-flex items-center justify-center gap-2 text-sm border bg-gray-800 h-10 px-4 w-full border-gray-600 text-gray-200 font-medium py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                 Cancelar
               </button>
             </div>
@@ -488,13 +487,13 @@ export default function CheckoutPage() {
                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                 <path d="m9 11 3 3L22 4"></path>
               </svg>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl font-bold text-white mb-2">
                 Finalize seu pagamento
               </h1>
-              <p className="text-gray-600">
+              <p className="text-gray-200">
                 Escaneie o QR Code ou copie o código PIX
               </p>{" "}
-              <div className="mt-2 text-sm text-gray-500">
+              <div className="mt-2 text-sm text-gray-300">
                 Valor:{" "}
                 <span className="font-semibold text-orange-600">
                   R${" "}
@@ -546,11 +545,11 @@ export default function CheckoutPage() {
             <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-200 hover:shadow-lg transition-shadow">
               <div className="text-center space-y-4">
                 <div className="flex items-center justify-center gap-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-white">
                     QR Code PIX
                   </h3>
                 </div>{" "}
-                <div className="bg-white border-2 border-gray-200 rounded-lg p-6 mx-auto w-fit transition-transform duration-300 hover:scale-105">
+                <div className="bg-gray-900 border-2 border-gray-600 rounded-lg p-6 mx-auto w-fit transition-transform duration-300 hover:scale-105">
                   <div className="w-48 h-48">
                     <img
                       alt="QR Code PIX"
@@ -718,7 +717,7 @@ export default function CheckoutPage() {
       {/* Modal de Verificação de Pagamento */}
       {showVerificationModal && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in zoom-in-95 duration-300">
+          <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in zoom-in-95 duration-300">
             {/* Header do Modal */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h2 className="text-xl font-bold text-gray-900">

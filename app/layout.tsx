@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PrivacyClub",
+  title: "Privacy Black",
   description: "Acesse milhares de modelos exclusivas e mídias premium",
 };
 
@@ -36,7 +36,7 @@ export default function RootLayout({
           }}
         ></script>
       </Head>
-      <body className={inter.variable}>
+      <body className={`${inter.variable} bg-black text-white`}>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

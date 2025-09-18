@@ -48,7 +48,7 @@ export default function PosCheckout() {
       window.fbq("track", "Purchase", {
         value: 19.99,
         currency: "BRL",
-        content_name: "PrivacyClub Acesso Premium",
+        content_name: "Privacy Black Acesso Premium",
         content_category: "Subscription",
         content_type: "product",
       });
@@ -125,7 +125,7 @@ export default function PosCheckout() {
                 <p className="text-xl md:text-2xl text-orange-100 mb-6">
                   Bem-vindo ao{" "}
                   <span className="text-white font-black bg-gradient-to-r from-orange-400 to-orange-300 bg-clip-text text-transparent">
-                    PrivacyClub Premium
+                    Privacy Black Premium
                   </span>
                   !
                 </p>

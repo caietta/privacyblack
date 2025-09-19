@@ -85,10 +85,17 @@ export default function CheckoutPage() {
         }),
       });
 
-      const dados = await resposta.json();
+      let dados = null;
+      if (resposta.ok) {
+        dados = await resposta.json();
+      } else {
+        const text = await resposta.text();
+        throw new Error(text || "Erro na requisição");
+      }
+
       // Resposta da API local recebida com sucesso
 
-      if (!resposta.ok || !dados.qr_code) {
+      if (!dados.qr_code) {
         throw new Error(dados.error || "Erro ao gerar pagamento");
       } // Atualiza os dados de pagamento
       setPaymentData({
@@ -432,7 +439,7 @@ export default function CheckoutPage() {
               R${" "}
               {paymentData?.planoInfo
                 ? formatPrice(paymentData.planoInfo.valor)
-                : "3,00"}
+                : "19,90"}
             </div>{" "}
           </div>
         </div>
@@ -615,7 +622,7 @@ export default function CheckoutPage() {
                   R${" "}
                   {paymentData?.planoInfo
                     ? formatPrice(paymentData.planoInfo.valor)
-                    : "19,90"}
+                    : "3,00"}
                 </span>
               </div>{" "}
               <div

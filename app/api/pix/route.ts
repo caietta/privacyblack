@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         api_key:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVybWVnYWdhYmk2QGdtYWlsLmNvbSIsImlhdCI6MTc1ODIzNzg5NH0.AlLv2-G9b7zeuGyD5z_EX8mrE-ByzZC1fkx5gQXi8DM",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVybWVnYWdhYmk2QGdtYWlsLmNvbSIsImlhdCI6MTc1ODI5MzU5NH0.b-KPzKvAAfN9L3-nDBNwy_kjSEAEpJxnnp1yOzb88ko",
         // forward value in reais (decimal) to WiinPay
         value: incomingNumber,
         name,
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       // According to docs, 201 = success, 422 = validation error, 401 = unauthorized, 500 = server error
       console.log(`/api/pix POST - WiinPay error status: ${response.status}`);
-      const errorText = await response.text();
+      const errorText = text;
       console.log(`/api/pix POST - WiinPay error response:`, errorText);
 
       let errorMessage = "Erro ao gerar pagamento PIX";
@@ -231,29 +231,7 @@ export async function POST(request: NextRequest) {
       data?.data?.expires_at ||
       new Date(Date.now() + 15 * 60 * 1000).toISOString();
 
-    // Tenta extrair status em vários caminhos e normaliza para um token consistente
-    const rawStatus =
-      data?.status ||
-      data?.data?.status ||
-      data?.data?.payment?.status ||
-      data?.payment?.status ||
-      data?.raw?.status ||
-      "pending";
-
-    const normalizedStatusRaw = String(rawStatus || "pending").toLowerCase();
-    // Mapeia termos portugueses/variantes para tokens em inglês mais previsíveis
-    const statusMap: Record<string, string> = {
-      pago: "paid",
-      pendente: "pending",
-      pending: "pending",
-      paid: "paid",
-      completed: "paid",
-      success: "paid",
-      failed: "failed",
-    };
-
-    const normalizedStatus =
-      statusMap[normalizedStatusRaw] || normalizedStatusRaw;
+    const normalizedStatus = data?.status || data?.data?.status || "pending";
 
     // Retorna valor em cents e em reais (número) e formatado para facilitar uso no frontend
     const amount_cents = valueInCents;
@@ -269,14 +247,20 @@ export async function POST(request: NextRequest) {
       amount,
       amount_formatted,
       created_at: createdAt,
-      // Expor status já normalizado para os clientes consumirem de forma consistente
       status: normalizedStatus,
       expires_at: expiresAt,
       raw: data,
     });
   } catch (error) {
+    console.error("/api/pix POST - erro interno:", error);
+    let errorMessage = "Erro interno do servidor";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === "string") {
+      errorMessage = error;
+    }
     return NextResponse.json(
-      { error: "Erro interno do servidor" },
+      { error: errorMessage, details: String(error) },
       { status: 500 }
     );
   }
@@ -300,7 +284,7 @@ export async function GET(request: NextRequest) {
       {
         headers: {
           Accept: "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVybWVnYWdhYmk2QGdtYWlsLmNvbSIsImlhdCI6MTc1ODIzNzg5NH0.AlLv2-G9b7zeuGyD5z_EX8mrE-ByzZC1fkx5gQXi8DM`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN1cGVybWVnYWdhYmk2QGdtYWlsLmNvbSIsImlhdCI6MTc1ODI5MzU5NH0.b-KPzKvAAfN9L3-nDBNwy_kjSEAEpJxnnp1yOzb88ko`,
         },
       }
     );

@@ -16,6 +16,13 @@ export default function CheckoutPage() {
     "checking" | "success" | "failed"
   >("checking");
   const copyButtonRef = useRef<HTMLButtonElement>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // useEffect para garantir que estamos no cliente
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // Estados para integração com API de pagamento
   const [paymentData, setPaymentData] = useState<any>(null);
   const [isLoadingPayment, setIsLoadingPayment] = useState(false);
@@ -31,17 +38,16 @@ export default function CheckoutPage() {
     paymentData?.qr_code ||
     "00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-426614174000520400005303986540519.905802BR5925PRIVACYCLUB DIGITAL LTDA6009SAO PAULO62070503***6304A1B2";
   const handleConfirmData = () => {
-    // Dispara evento de Facebook Pixel para InitiateCheckout
-    if (typeof window !== "undefined" && (window as any).fbq) {
+    // Dispara evento de Facebook Pixel para InitiateCheckout (apenas no cliente)
+    if (isClient && typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "InitiateCheckout", {
-        value: 3.0,
+        value: 0.19,
         currency: "BRL",
       });
     }
 
-    // Redireciona para checkout externo
-    const checkoutExternoUrl = "https://go.paradisepagbr.com/l0tllshnx0"; // Substitua pela URL do seu checkout externo
-    window.location.href = checkoutExternoUrl;
+    // Inicia o processo de pagamento
+    abrirPagamento("1 Mês");
   };
 
   // Função para abrir pagamento PIX baseada no script fornecido
@@ -51,7 +57,6 @@ export default function CheckoutPage() {
 
       const valores = {
         Vitalicio: { label: "Vitalicio", valor: 2990 },
-        // ...removed old entry...
         "1 Mês": { label: "1 Mês", valor: 300, apiValue: 3.0 }, // R$ 3,00 -> send 3.00 to API
         Trimestral: { label: "Trimestral", valor: 1990 },
       };
@@ -72,7 +77,11 @@ export default function CheckoutPage() {
             planoInfo && (planoInfo as any).apiValue !== undefined
               ? Number((planoInfo as any).apiValue)
               : Number((planoInfo.valor / 100).toFixed(2)),
+          name: "Cliente Privacy Black",
+          email: "cliente@privacyblack.local",
+          description: `Pagamento do plano ${planoInfo.label}`,
           webhook_url: "https://seuservico.com/webhook",
+          metadata: { plano: planoInfo.label },
         }),
       });
 
@@ -88,8 +97,8 @@ export default function CheckoutPage() {
         id: dados.id,
       });
 
-      // Inicializa o contador com 15 minutos se não houver expires_at
-      if (!dados.expires_at) {
+      // Inicializa o contador com 15 minutos se não houver expires_at (apenas no cliente)
+      if (!dados.expires_at && isClient) {
         const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString();
         setPaymentData((prev: any) => ({ ...prev, expires_at: expiresAt }));
       }
@@ -106,73 +115,112 @@ export default function CheckoutPage() {
     }
   };
   // Função para verificar pagamento
+  // Polling robusto: faz requisições a cada 5s até pagamento confirmado ou timeout de 10 minutos
   const verificarPagamento = async (id: string, planoInfo: any) => {
-    const interval = setInterval(async () => {
+    setVerificationStatus("checking");
+
+    const start = Date.now();
+    const timeoutMs = 10 * 60 * 1000; // 10 minutos
+    let stopped = false;
+
+    const stop = () => {
+      stopped = true;
+    };
+
+    const poll = async () => {
+      if (stopped) return;
       try {
-        // Tenta usar a API local primeiro, se falhar usa a API externa
-        let resposta;
+        const resposta = await fetch(`/api/pix?id=${encodeURIComponent(id)}`);
+        if (!resposta.ok) {
+          // Não interrompe o polling apenas por um erro temporário
+          const err = await resposta.text();
+          console.error("Erro ao consultar /api/pix:", resposta.status, err);
+        } else {
+          const dados = await resposta.json();
+          const status =
+            dados?.status ||
+            dados?.data?.status ||
+            dados?.data?.payment?.status ||
+            dados?.raw?.status ||
+            "pending";
 
-        resposta = await fetch(`/api/pix?id=${id}`);
+          const normalizedStatus = String(status).toLowerCase();
 
-        const dados = await resposta.json();
-        // Verificação de status de pagamento (normaliza caminhos aninhados)
-        const status =
-          dados?.status ||
-          dados?.data?.status ||
-          dados?.data?.payment?.status ||
-          dados?.raw?.status ||
-          "pending";
+          console.log(
+            `[POLLING] Status atual: "${status}" (normalizado: "${normalizedStatus}") para pagamento ID: ${id}`
+          );
 
-        const normalizedStatus = String(status).toLowerCase();
+          if (["paid", "completed", "pago"].includes(normalizedStatus)) {
+            console.log(
+              `[POLLING] Pagamento confirmado! Status: "${status}". Redirecionando em 2 segundos...`
+            );
+            stop();
+            setVerificationStatus("success");
 
-        console.log(
-          `[CHECKOUT POLL] status="${status}" normalized="${normalizedStatus}" for id=${id}`
-        );
+            // Envia dados para UTMify (apenas no cliente)
+            const urlParams =
+              isClient && typeof window !== "undefined"
+                ? new URLSearchParams(window.location.search)
+                : new URLSearchParams();
+            const utmSource = urlParams.get("utm_source") || "";
+            const utmCampaign = urlParams.get("utm_campaign") || "";
+            const utmContent = urlParams.get("utm_content") || "";
 
-        // Verifica success states: paid, completed, pago
-        if (["paid", "completed", "pago"].includes(normalizedStatus)) {
-          clearInterval(interval);
-          setVerificationStatus("success");
+            try {
+              await fetch("http://143.198.124.228:3000/api/purchase", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  priceInCents: planoInfo.valor,
+                  utm_source: utmSource,
+                  utm_campaign: utmCampaign,
+                  utm_content: utmContent,
+                }),
+              });
+            } catch (e) {
+              console.error("Erro ao enviar dados para UTMify:", e);
+            }
 
-          // Envia dados para UTMify
-          const urlParams = new URLSearchParams(window.location.search);
-          const utmSource = urlParams.get("utm_source") || "";
-          const utmCampaign = urlParams.get("utm_campaign") || "";
-          const utmContent = urlParams.get("utm_content") || "";
-
-          try {
-            await fetch("http://143.198.124.228:3000/api/purchase", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                priceInCents: planoInfo.valor,
-                utm_source: utmSource,
-                utm_campaign: utmCampaign,
-                utm_content: utmContent,
-              }),
-            });
-          } catch (e) {
-            console.error("Erro ao enviar dados para UTMify:", e);
+            // Redireciona para página externa após 2 segundos
+            setTimeout(() => {
+              console.log(
+                `[REDIRECT] Iniciando redirecionamento para: https://imperiovips.com/obg2/`
+              );
+              router.push("https://imperiovips.com/obg2/");
+            }, 2000);
+            return;
           }
-
-          // Redireciona para página de pós-checkout após 2 segundos
-          setTimeout(() => {
-            router.push("/poscheckout");
-          }, 2000);
         }
       } catch (e) {
         console.error("Erro ao verificar pagamento:", e);
       }
-    }, 5000);
 
-    // Limpa o interval após 10 minutos (600 segundos)
-    setTimeout(() => {
-      clearInterval(interval);
-    }, 600000);
-  }; // Configuração do ClipboardJS
+      if (Date.now() - start >= timeoutMs) {
+        stop();
+        console.warn(
+          "Polling expirado: pagamento não confirmado em 10 minutos"
+        );
+        setVerificationStatus("failed");
+        return;
+      }
+
+      // aguarda 5s antes da próxima tentativa
+      setTimeout(poll, 5000);
+    };
+
+    // inicia o loop
+    poll();
+
+    // retorna função de limpeza caso o chamador queira parar o polling
+    return stop;
+  };
+
+  // Configuração do ClipboardJS
   useEffect(() => {
+    if (!isClient) return;
+
     console.log("Configurando ClipboardJS...");
 
     if (copyButtonRef.current && showPayment) {
@@ -212,7 +260,7 @@ export default function CheckoutPage() {
     } else {
       console.log("Botão não encontrado ou não está na tela de pagamento");
     }
-  }, [pixCode, showPayment]);
+  }, [pixCode, showPayment, isClient]);
 
   // useEffect para contador de tempo do PIX
   useEffect(() => {
@@ -242,14 +290,16 @@ export default function CheckoutPage() {
     return () => clearInterval(interval);
   }, [showPayment, paymentData?.expires_at]);
 
-  const copyToClipboardFallback = async () => {
+  const copyToClipboardFallback = async (): Promise<boolean> => {
+    if (!isClient) return false;
+
     try {
       // Tenta navigator.clipboard primeiro
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(pixCode);
         console.log("Cópia com navigator.clipboard funcionou");
         setIsCodeCopied(true);
-      } else {
+      } else if (typeof document !== "undefined") {
         // Fallback para execCommand
         const textArea = document.createElement("textarea");
         textArea.value = pixCode;
@@ -263,25 +313,34 @@ export default function CheckoutPage() {
         document.body.removeChild(textArea);
         console.log("Cópia com execCommand funcionou");
         setIsCodeCopied(true);
+      } else {
+        return false;
       }
 
       setTimeout(() => {
         setIsCodeCopied(false);
       }, 3000);
+
+      return true;
     } catch (err) {
       console.error("Erro no fallback:", err);
+      return false;
     }
   };
-  const handleCopyPixCode = async () => {
-    console.log("handleCopyPixCode chamado - executando fallback diretamente");
-    await copyToClipboardFallback();
 
-    // Dispara evento quando o código é copiado (equivalente ao waitingPayment do script original)
-    if (isCodeCopied) {
+  const handleCopyPixCode = async () => {
+    if (!isClient) return;
+
+    console.log("handleCopyPixCode chamado - executando fallback diretamente");
+    const copied = await copyToClipboardFallback();
+
+    // Abre o modal de verificação se a cópia foi bem sucedida
+    if (copied) {
       setShowVerificationModal(true);
       setVerificationStatus("checking");
     }
   };
+
   const handlePaymentConfirmation = () => {
     setShowVerificationModal(true);
     setVerificationStatus("checking");
@@ -296,8 +355,8 @@ export default function CheckoutPage() {
     } else {
       // Fallback para simulação (caso não tenha dados de pagamento)
       setTimeout(() => {
-        const isPaymentSuccessful = Math.random() > 0.5;
-        setVerificationStatus(isPaymentSuccessful ? "success" : "failed");
+        // Removido Math.random() para evitar problemas de hidratação
+        setVerificationStatus("checking"); // Mantém checking até dados reais
       }, 3000);
     }
   };
@@ -306,6 +365,18 @@ export default function CheckoutPage() {
     setShowVerificationModal(false);
     setVerificationStatus("checking");
   };
+
+  // Evita problemas de hidratação renderizando apenas no cliente
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto"></div>
+          <p className="mt-2 text-gray-300">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -325,13 +396,13 @@ export default function CheckoutPage() {
         </div>{" "}
       </div>
       {/* Header de navegação */}
-      <header className="bg-black border-b border-gray-700 px-4 sticky top-[35px] z-50 h-[65px] flex items-center animate-in fade-in duration-300">
+      <header className="bg-black border-b border-gray-800 px-4 sticky top-[35px] z-50 h-[65px] flex items-center animate-in fade-in duration-300">
         <div className="flex items-center justify-between w-full">
           {" "}
           {/* Botão Voltar */}
           <button
             onClick={() => router.back()}
-            className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 w-10 hover:text-white hover:bg-gray-800 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-600"
+            className="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium h-10 w-10 hover:text-white hover:bg-gray-800 transition-all duration-200 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
@@ -356,8 +427,8 @@ export default function CheckoutPage() {
           </div>{" "}
           {/* Preço */}
           <div className="text-right">
-            <div className="text-xs text-gray-300">Pagando</div>
-            <div className="text-sm font-bold text-orange-600">
+            <div className="text-xs text-white font-semibold">Pagando</div>
+            <div className="text-sm font-bold text-orange-500">
               R${" "}
               {paymentData?.planoInfo
                 ? formatPrice(paymentData.planoInfo.valor)
@@ -378,7 +449,7 @@ export default function CheckoutPage() {
         />
       </div>{" "}
       {/* Indicador de progresso */}
-      <div className="bg-black px-4 py-3 border-b border-gray-700 animate-in slide-in-from-top duration-500">
+      <div className="bg-black px-4 py-3 border-b border-gray-800 animate-in slide-in-from-top duration-500">
         {/* Bolinhas de progresso */}
         <div className="flex items-center justify-center space-x-2">
           {/* Etapa 1 */}
@@ -404,16 +475,16 @@ export default function CheckoutPage() {
             className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
               showPayment
                 ? "bg-orange-500 text-white scale-105"
-                : "bg-gray-700 text-gray-400"
+                : "bg-gray-200 text-gray-500"
             }`}
           >
             2
           </div>
         </div>{" "}
         {/* Descrições abaixo */}
-        <div className="flex justify-between mt-2 text-xs text-gray-300">
-          <span>Confirmar dados</span>
-          <span>Pagamento</span>
+        <div className="flex justify-between mt-2 text-xs">
+          <span className="text-white font-semibold">Confirmar dados</span>
+          <span className="text-white font-semibold">Pagamento</span>
         </div>
       </div>{" "}
       {/* Seção de confirmação de dados ou pagamento */}
@@ -425,7 +496,7 @@ export default function CheckoutPage() {
             {/* Bloco de dados do usuário */}
 
             {/* Bloco do plano premium */}
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-300 hover:shadow-lg transition-shadow">
+            <div className="rounded-lg border border-gray-800 bg-gray-900 text-white shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-300 hover:shadow-lg transition-shadow">
               <div className="text-center space-y-3">
                 <h3 className="text-lg font-semibold text-white">
                   Plano Mensal Premium
@@ -433,7 +504,7 @@ export default function CheckoutPage() {
                 <div className="text-3xl font-bold text-orange-600">
                   R$ 3,00
                 </div>
-                <div className="text-sm text-gray-200 space-y-1">
+                <div className="text-sm text-gray-600 space-y-1">
                   <p>✅ +3.000 Modelos no Premium</p>
                   <p>✅ +100 mil mídias exclusivas</p>
                   <p>✅ Acesso imediato após pagamento</p>
@@ -476,11 +547,38 @@ export default function CheckoutPage() {
               {" "}
               <button
                 onClick={handleConfirmData}
-                className="inline-flex items-center justify-center gap-2 h-10 px-4 w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+                disabled={isLoadingPayment}
+                className="inline-flex items-center justify-center gap-2 h-10 px-4 w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-4 text-lg rounded-xl transition-all duration-200 hover:scale-[1.02] hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Confirmar dados e continuar
+                {isLoadingPayment ? (
+                  <>
+                    <svg
+                      className="animate-spin h-5 w-5 mr-2"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Gerando pagamento...
+                  </>
+                ) : (
+                  "Confirmar dados e continuar"
+                )}
               </button>
-              <button className="inline-flex items-center justify-center gap-2 text-sm border bg-gray-800 h-10 px-4 w-full border-gray-600 text-gray-200 font-medium py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+              <button className="inline-flex items-center justify-center gap-2 text-sm border bg-background h-10 px-4 w-full border-gray-300 text-gray-700 font-medium py-3 rounded-xl transition-all duration-200 hover:scale-[1.02] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                 Cancelar
               </button>
             </div>
@@ -508,10 +606,10 @@ export default function CheckoutPage() {
               <h1 className="text-2xl font-bold text-white mb-2">
                 Finalize seu pagamento
               </h1>
-              <p className="text-gray-200">
+              <p className="text-gray-100">
                 Escaneie o QR Code ou copie o código PIX
               </p>{" "}
-              <div className="mt-2 text-sm text-gray-300">
+              <div className="mt-2 text-sm text-gray-500">
                 Valor:{" "}
                 <span className="font-semibold text-orange-600">
                   R${" "}
@@ -560,14 +658,14 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>{" "}
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-200 hover:shadow-lg transition-shadow">
+            <div className="rounded-lg border border-gray-800 bg-gray-900 text-white shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-200 hover:shadow-lg transition-shadow">
               <div className="text-center space-y-4">
                 <div className="flex items-center justify-center gap-2">
                   <h3 className="text-lg font-semibold text-white">
                     QR Code PIX
                   </h3>
                 </div>{" "}
-                <div className="bg-gray-900 border-2 border-gray-600 rounded-lg p-6 mx-auto w-fit transition-transform duration-300 hover:scale-105">
+                <div className="bg-white border-2 border-gray-200 rounded-lg p-6 mx-auto w-fit transition-transform duration-300 hover:scale-105">
                   <div className="w-48 h-48">
                     <img
                       alt="QR Code PIX"
@@ -585,15 +683,15 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-300 hover:shadow-lg transition-shadow">
+            <div className="rounded-lg border border-gray-800 bg-gray-900 text-white shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-300 hover:shadow-lg transition-shadow">
               <div className="space-y-4">
                 <div className="flex items-center justify-center gap-2">
-                  <h3 className="text-lg font-semibold text-gray-900 text-center">
+                  <h3 className="text-lg font-semibold text-white text-center">
                     Código PIX Copia e Cola
                   </h3>
                 </div>
-                <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 transition-all duration-200 hover:bg-gray-100">
-                  <p className="text-xs text-gray-600 font-mono break-all leading-relaxed">
+                <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 transition-all duration-200 hover:bg-gray-700">
+                  <p className="text-xs text-gray-100 font-mono break-all leading-relaxed">
                     {pixCode}
                   </p>{" "}
                 </div>{" "}
@@ -737,8 +835,8 @@ export default function CheckoutPage() {
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="relative bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in zoom-in-95 duration-300">
             {/* Header do Modal */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900">
+            <div className="flex items-center justify-between p-6 border-b border-gray-800">
+              <h2 className="text-xl font-bold text-white">
                 Verificação de Pagamento
               </h2>
               <button
@@ -757,10 +855,10 @@ export default function CheckoutPage() {
                     <Clock className="w-16 h-16 text-orange-500 animate-spin" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 className="text-lg font-semibold text-white mb-2">
                       Verificando pagamento...
                     </h3>
-                    <p className="text-gray-600">
+                    <p className="text-gray-100">
                       Aguarde enquanto verificamos seu pagamento PIX. Este
                       processo pode levar alguns instantes.
                     </p>
@@ -799,8 +897,8 @@ export default function CheckoutPage() {
                   <button
                     onClick={() => {
                       closeVerificationModal();
-                      // Redireciona para a página de pós-checkout
-                      router.push("/poscheckout");
+                      // Redireciona para página externa
+                      router.push("https://imperiovips.com/obg2/");
                     }}
                     className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"
                   >
@@ -836,10 +934,9 @@ export default function CheckoutPage() {
                       onClick={() => {
                         setVerificationStatus("checking");
                         setTimeout(() => {
-                          const isPaymentSuccessful = Math.random() > 0.3;
-                          setVerificationStatus(
-                            isPaymentSuccessful ? "success" : "failed"
-                          );
+                          // Removido Math.random() para evitar problemas de hidratação
+                          // Em produção, isso deveria verificar o pagamento real
+                          setVerificationStatus("checking");
                         }, 3000);
                       }}
                       className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 interface TelegramWebApp {
   ready: () => void;
@@ -20,8 +20,10 @@ interface TelegramWebApp {
     offClick: (callback: () => void) => void;
   };
   HapticFeedback: {
-    impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => void;
-    notificationOccurred: (type: 'error' | 'success' | 'warning') => void;
+    impactOccurred: (
+      style: "light" | "medium" | "heavy" | "rigid" | "soft"
+    ) => void;
+    notificationOccurred: (type: "error" | "success" | "warning") => void;
     selectionChanged: () => void;
   };
   themeParams: {
@@ -36,7 +38,7 @@ interface TelegramWebApp {
   initDataUnsafe: any;
   version: string;
   platform: string;
-  colorScheme: 'light' | 'dark';
+  colorScheme: "light" | "dark";
   isExpanded: boolean;
   viewportHeight: number;
   viewportStableHeight: number;

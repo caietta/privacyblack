@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "Privacy Black",
   description: "Acesse milhares de modelos exclusivas e mídias premium",
   other: {
-    'telegram-web-app': 'true',
+    "telegram-web-app": "true",
   },
 };
 
@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <script src="/telegram-web-app.js"></script>

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageModal from "@/components/LanguageModal";
+import { useTelegramWebApp } from "@/hooks/useTelegramWebApp";
 import modelsData from "./modelos.json";
 
 // Interface para definir a estrutura dos dados da modelo
@@ -131,8 +132,9 @@ const createPostItems = (modelData: ModelData) => {
 
 function PrivacyBlackPageContent() {
   const { t } = useLanguage();
-  const router = useRouter();
+
   const searchParams = useSearchParams();
+  const { isTelegramWebApp } = useTelegramWebApp();
   const [activeTab, setActiveTab] = useState<"posts" | "media">("media");
   const [activeFilter, setActiveFilter] = useState<"all" | "photos" | "videos">(
     "all"
@@ -141,7 +143,23 @@ function PrivacyBlackPageContent() {
   const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false);
   const handlePremiumAction = () => {
     setIsPremiumModalOpen(true);
-  }; // Carrega os dados da modelo baseado no ID da URL
+  };
+  const router = useRouter();
+  const verifyIsTelegram = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isTelegram = urlParams.get("istelegram");
+
+    if (isTelegram === "true") {
+      return true;
+    }
+    return false;
+  };
+  // Função para obter a URL correta baseada no contexto do Telegram
+  const getCheckoutUrl = () => {
+    const isTelegram = verifyIsTelegram();
+    return isTelegram ? "/pagamento" : "/checkout";
+  };
+  // Carrega os dados da modelo baseado no ID da URL
   useEffect(() => {
     const modelId = searchParams.get("id");
     if (modelId) {
@@ -334,7 +352,7 @@ function PrivacyBlackPageContent() {
               Assinaturas
             </h3>{" "}
             <div
-              onClick={() => router.push("/checkout")}
+              onClick={() => router.push(getCheckoutUrl())}
               className="w-full h-[60px] rounded-[30px] px-[25px] flex items-center justify-between text-white font-light text-[15px] transition-all duration-200 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
               style={{
                 background:
@@ -626,7 +644,7 @@ function PrivacyBlackPageContent() {
                   <div className="mt-3">
                     {" "}
                     <button
-                      onClick={() => router.push("/checkout")}
+                      onClick={() => router.push(getCheckoutUrl())}
                       className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-medium rounded-lg hover:from-orange-600 hover:to-pink-600 transition-all duration-200 hover:scale-105 shadow-sm"
                     >
                       <CircleDollarSign className="h-3 w-3" />
@@ -680,7 +698,7 @@ function PrivacyBlackPageContent() {
 
                 <div className="flex gap-3">
                   <button
-                    onClick={() => router.push("/checkout")}
+                    onClick={() => router.push(getCheckoutUrl())}
                     className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-medium rounded-lg hover:from-orange-600 hover:to-pink-600 transition-all duration-200 hover:scale-105 shadow-sm"
                   >
                     <CircleDollarSign className="h-4 w-4" />

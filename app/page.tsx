@@ -1,9 +1,38 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Script from "next/script";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function PresellPage() {
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const router = useRouter();
+  // Evita uso de `window` durante SSR: calcula flag apenas no cliente
+  const [isTelegram, setIsTelegram] = useState(false);
+  useEffect(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      setIsTelegram(urlParams.get("istelegram") === "true");
+    } catch (e) {
+      // se window não existir ou outra falha, mantém false
+      setIsTelegram(false);
+    }
+  }, []);
+
+  // Mostra loading durante redirecionamento
+  if (isRedirecting) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+          <p>Redirecionando...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Meta Pixel Code */}
@@ -21,7 +50,7 @@ export default function PresellPage() {
           fbq('track', 'PageView');
         `}
       </Script>
-      
+
       {/* Telegram Web App Integration */}
       <Script id="telegram-webapp-init" strategy="afterInteractive">
         {`
@@ -39,7 +68,7 @@ export default function PresellPage() {
           }
         `}
       </Script>
-      
+
       <noscript>
         <img
           height="1"
@@ -102,7 +131,7 @@ export default function PresellPage() {
 
           {/* CTA Button */}
           <div className="pt-4 space-y-4">
-            <Link href="/inicio">
+            <Link href={isTelegram ? "/inicio?istelegram=true" : "/inicio"}>
               <Button
                 size="lg"
                 className="px-12 py-4 text-lg font-medium bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"

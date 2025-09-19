@@ -5,10 +5,11 @@ import { ExternalLink, Shield, Check, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageModal from "@/components/LanguageModal";
+import { useTelegramWebApp } from "@/hooks/useTelegramWebApp";
 import modelsData from "./modelos.json";
 import {
   Dialog,
@@ -57,7 +58,14 @@ export default function PrivacyBlackPage() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false); // Controle do modal de idiomas
   const [showHiddenProfile, setShowHiddenProfile] = useState(false); // Controle do card de perfil oculto
   const { t } = useLanguage(); // Hook para tradução de textos
-  const router = useRouter(); // Hook para navegação
+
+  const { isTelegramWebApp } = useTelegramWebApp(); // Hook para verificar se está no Telegram
+
+  // Função para obter a URL correta baseada no contexto do Telegram
+  const getCheckoutUrl = () => {
+    const isTelegram = verifyIsTelegram();
+    return isTelegram ? "/pagamento" : "/checkout";
+  };
 
   // Filtro de modelos baseado na pesquisa do usuário
   const filteredModels = allModels.filter(
@@ -68,7 +76,22 @@ export default function PrivacyBlackPage() {
 
   // Função para navegar para a página da modelo
   const handleModelClick = (modelId: number) => {
-    router.push(`/modelos?id=${modelId}`);
+    const isTelegram = verifyIsTelegram();
+    if (isTelegram) {
+      router.push(`/modelos?id=${modelId}&istelegram=true`);
+    } else {
+      router.push(`/modelos?id=${modelId}`);
+    }
+  };
+  const router = useRouter();
+  const verifyIsTelegram = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isTelegram = urlParams.get("istelegram");
+
+    if (isTelegram === "true") {
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -232,7 +255,7 @@ export default function PrivacyBlackPage() {
           {/* BOTÃO PLANO PREMIUM - Chamada principal para assinatura */}
           {/* =============================================================== */}
           <button
-            onClick={() => router.push("/checkout")}
+            onClick={() => router.push(getCheckoutUrl())}
             className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 
                  bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold 
                  rounded-lg hover:from-orange-600 hover:to-red-600 
@@ -554,7 +577,7 @@ export default function PrivacyBlackPage() {
                     {/* Botões */}
                     <div className="flex flex-col gap-2">
                       <button
-                        onClick={() => router.push("/checkout")}
+                        onClick={() => router.push(getCheckoutUrl())}
                         className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-medium rounded-lg hover:scale-105 transition-all shadow-lg"
                       >
                         <svg
@@ -666,7 +689,7 @@ export default function PrivacyBlackPage() {
                   </div>
 
                   <button
-                    onClick={() => router.push("/checkout")}
+                    onClick={() => router.push(getCheckoutUrl())}
                     className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
                     type="button"
                   >

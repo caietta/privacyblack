@@ -34,13 +34,14 @@ export default function CheckoutPage() {
     // Dispara evento de Facebook Pixel para InitiateCheckout
     if (typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "InitiateCheckout", {
-        value: 3.0,
+        value: 19.9,
         currency: "BRL",
       });
     }
 
     // Redireciona para checkout externo
-    const checkoutExternoUrl = "https://go.paradisepagbr.com/l0tllshnx0"; // Substitua pela URL do seu checkout externo
+    const checkoutExternoUrl =
+      "https://pay.kirvano.com/519a9340-1368-4ab5-ac01-117cbdfc8d25"; // Substitua pela URL do seu checkout externo
     window.location.href = checkoutExternoUrl;
   };
 
@@ -51,7 +52,8 @@ export default function CheckoutPage() {
 
       const valores = {
         Vitalicio: { label: "Vitalicio", valor: 2990 },
-        "1 Mês": { label: "1 Mês", valor: 1990, apiValue: 19.9 }, // R$ 19,90 -> send 19.90 to API
+        // ...removed old entry...
+        "1 Mês": { label: "1 Mês", valor: 1990, apiValue: 19.9 },
         Trimestral: { label: "Trimestral", valor: 1990 },
       };
 
@@ -158,7 +160,9 @@ export default function CheckoutPage() {
 
           // Redireciona para página de pós-checkout após 2 segundos
           setTimeout(() => {
-            router.push("/poscheckout");
+            router.push(
+              "https://pay.kirvano.com/519a9340-1368-4ab5-ac01-117cbdfc8d25"
+            );
           }, 2000);
         }
       } catch (e) {
@@ -360,7 +364,7 @@ export default function CheckoutPage() {
               R${" "}
               {paymentData?.planoInfo
                 ? formatPrice(paymentData.planoInfo.valor)
-                : "3,00"}
+                : "19,90"}
             </div>{" "}
           </div>
         </div>
@@ -799,7 +803,9 @@ export default function CheckoutPage() {
                     onClick={() => {
                       closeVerificationModal();
                       // Redireciona para a página de pós-checkout
-                      router.push("/poscheckout");
+                      router.push(
+                        "https://pay.kirvano.com/519a9340-1368-4ab5-ac01-117cbdfc8d25"
+                      );
                     }}
                     className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"
                   >

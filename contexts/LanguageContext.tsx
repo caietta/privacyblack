@@ -61,7 +61,7 @@ const translations = {
     "immediate.delivery": "in the app. Immediate delivery.",
 
     // Premium plan
-    "monthly.plan": "Monthly Plan - $3.90",
+    "monthly.plan": "Monthly Plan - $19.90",
     "guarantee.refund": "30 days guarantee • Full refund",
 
     // Search
@@ -101,7 +101,7 @@ const translations = {
     "immediate.delivery": "en la aplicación. Entrega inmediata.",
 
     // Premium plan
-    "monthly.plan": "Plan Mensual - $3.90",
+    "monthly.plan": "Plan Mensual - $19.90",
     "guarantee.refund": "30 días de garantía • Reembolso total",
 
     // Search

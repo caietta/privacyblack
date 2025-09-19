@@ -41,7 +41,7 @@ export default function CheckoutPage() {
     // Dispara evento de Facebook Pixel para InitiateCheckout (apenas no cliente)
     if (isClient && typeof window !== "undefined" && (window as any).fbq) {
       (window as any).fbq("track", "InitiateCheckout", {
-        value: 0.19,
+        value: 19.9,
         currency: "BRL",
       });
     }
@@ -57,7 +57,7 @@ export default function CheckoutPage() {
 
       const valores = {
         Vitalicio: { label: "Vitalicio", valor: 2990 },
-        "1 Mês": { label: "1 Mês", valor: 1990, apiValue: 19.9 }, // R$ 19,90 -> send 19.90 to API
+        "1 Mês": { label: "1 Mês", valor: 1990, apiValue: 19.9 },
         Trimestral: { label: "Trimestral", valor: 1990 },
       };
 
@@ -610,9 +610,9 @@ export default function CheckoutPage() {
                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                 <path d="m9 11 3 3L22 4"></path>
               </svg>
-              <h1 className="text-2xl font-bold text-white mb-2">
+              <div className="text-2xl font-bold text-white mb-2">
                 Finalize seu pagamento
-              </h1>
+              </div>
               <p className="text-gray-100">
                 Escaneie o QR Code ou copie o código PIX
               </p>{" "}
@@ -622,7 +622,7 @@ export default function CheckoutPage() {
                   R${" "}
                   {paymentData?.planoInfo
                     ? formatPrice(paymentData.planoInfo.valor)
-                    : "3,00"}
+                    : "19,90"}
                 </span>
               </div>{" "}
               <div

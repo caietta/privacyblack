@@ -51,8 +51,7 @@ export default function CheckoutPage() {
 
       const valores = {
         Vitalicio: { label: "Vitalicio", valor: 2990 },
-        // ...removed old entry...
-        "1 Mês": { label: "1 Mês", valor: 300, apiValue: 3.0 }, // R$ 3,00 -> send 3.00 to API
+        "1 Mês": { label: "1 Mês", valor: 1990, apiValue: 19.9 }, // R$ 19,90 -> send 19.90 to API
         Trimestral: { label: "Trimestral", valor: 1990 },
       };
 
@@ -431,7 +430,7 @@ export default function CheckoutPage() {
                   Plano Mensal Premium
                 </h3>
                 <div className="text-3xl font-bold text-orange-600">
-                  R$ 3,00
+                  R$ 19,90
                 </div>
                 <div className="text-sm text-gray-200 space-y-1">
                   <p>✅ +3.000 Modelos no Premium</p>
@@ -517,7 +516,7 @@ export default function CheckoutPage() {
                   R${" "}
                   {paymentData?.planoInfo
                     ? formatPrice(paymentData.planoInfo.valor)
-                    : "3,00"}
+                    : "19,90"}
                 </span>
               </div>{" "}
               <div

@@ -231,7 +231,29 @@ export async function POST(request: NextRequest) {
       data?.data?.expires_at ||
       new Date(Date.now() + 15 * 60 * 1000).toISOString();
 
-    const normalizedStatus = data?.status || data?.data?.status || "pending";
+    // Tenta extrair status em vários caminhos e normaliza para um token consistente
+    const rawStatus =
+      data?.status ||
+      data?.data?.status ||
+      data?.data?.payment?.status ||
+      data?.payment?.status ||
+      data?.raw?.status ||
+      "pending";
+
+    const normalizedStatusRaw = String(rawStatus || "pending").toLowerCase();
+    // Mapeia termos portugueses/variantes para tokens em inglês mais previsíveis
+    const statusMap: Record<string, string> = {
+      pago: "paid",
+      pendente: "pending",
+      pending: "pending",
+      paid: "paid",
+      completed: "paid",
+      success: "paid",
+      failed: "failed",
+    };
+
+    const normalizedStatus =
+      statusMap[normalizedStatusRaw] || normalizedStatusRaw;
 
     // Retorna valor em cents e em reais (número) e formatado para facilitar uso no frontend
     const amount_cents = valueInCents;
@@ -247,6 +269,7 @@ export async function POST(request: NextRequest) {
       amount,
       amount_formatted,
       created_at: createdAt,
+      // Expor status já normalizado para os clientes consumirem de forma consistente
       status: normalizedStatus,
       expires_at: expiresAt,
       raw: data,

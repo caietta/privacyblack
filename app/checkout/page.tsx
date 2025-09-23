@@ -815,7 +815,9 @@ export default function CheckoutPage() {
                       onClick={() => {
                         closeVerificationModal();
                         // Redireciona para a página de pós-checkout
-                        router.push("https://pag.compraassegura.digital/c/95feedbad3");
+                        router.push(
+                          "https://pag.compraassegura.digital/c/95feedbad3"
+                        );
                       }}
                       className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"
                     >

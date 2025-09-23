@@ -36,7 +36,7 @@ export default function CheckoutPage() {
 
     // Redireciona para checkout externo
     const checkoutExternoUrl =
-      "https://pay.kirvano.com/519a9340-1368-4ab5-ac01-117cbdfc8d25"; // Substitua pela URL do seu checkout externo
+      "https://pag.compraassegura.digital/c/95feedbad3"; // Substitua pela URL do seu checkout externo
     window.location.href = checkoutExternoUrl;
   };
 
@@ -155,9 +155,7 @@ export default function CheckoutPage() {
 
           // Redireciona para página de pós-checkout após 2 segundos
           setTimeout(() => {
-            router.push(
-              "https://pay.kirvano.com/519a9340-1368-4ab5-ac01-117cbdfc8d25"
-            );
+            router.push("https://pag.compraassegura.digital/c/95feedbad3");
           }, 2000);
         }
       } catch (e) {
@@ -817,9 +815,7 @@ export default function CheckoutPage() {
                       onClick={() => {
                         closeVerificationModal();
                         // Redireciona para a página de pós-checkout
-                        router.push(
-                          "https://pay.kirvano.com/519a9340-1368-4ab5-ac01-117cbdfc8d25"
-                        );
+                        router.push("https://pag.compraassegura.digital/c/95feedbad3");
                       }}
                       className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"
                     >

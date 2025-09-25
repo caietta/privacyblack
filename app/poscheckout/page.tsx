@@ -44,15 +44,7 @@ export default function PosCheckout() {
     document.head.appendChild(styleSheet);
 
     // Facebook Pixel tracking for purchase completion
-    if (typeof window !== "undefined" && window.fbq) {
-      window.fbq("track", "Purchase", {
-        value: 19.9,
-        currency: "BRL",
-        content_name: "Privacy Black Acesso Premium",
-        content_category: "Subscription",
-        content_type: "product",
-      });
-    }
+    // Purchase pixel removed
 
     // Cleanup
     return () => {

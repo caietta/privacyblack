@@ -305,23 +305,20 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <Script id="utmify-pixel-kirvano">
-        {`window.pixelId = "68c9e381169feb463d9873f4";
-          var a = document.createElement("script");
-          a.setAttribute("async", "");
-          a.setAttribute("defer", "");
-          a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-          document.head.appendChild(a);
+      <Script id="fb-pixel" strategy="afterInteractive">
+        {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+          fbq('init', '1188608602540337');
+          fbq('track', 'PageView');
         `}
       </Script>
-      <Script
-        id="utmify-utms"
-        src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-        data-utmify-prevent-xcod-sck
-        data-utmify-prevent-subids
-        async
-        defer
-      />
       <div className="min-h-screen bg-black text-white">
         {/* HEADER FIXO SUPERIOR - Banner de verificação do Telegram */}
         <div className="fixed top-0 left-0 w-full bg-black h-[35px] flex items-center justify-center z-[1000] shadow-md overflow-hidden">

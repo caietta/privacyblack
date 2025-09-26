@@ -110,28 +110,12 @@ export default function PrivacyBlackPage() {
 
       <div className="min-h-screen bg-black text-white">
         {/* =============================================================== */}
-        {/* HEADER FIXO SUPERIOR - Banner de verificação do Telegram */}
-        {/* =============================================================== */}
-        <div className="fixed top-0 left-0 w-full bg-black h-[35px] flex items-center justify-center z-[1000] shadow-md overflow-hidden">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 flex items-center justify-center">
-              <img
-                alt="Verificado"
-                src="./verified.webp"
-                className="w-5 h-5 object-contain"
-              />
-            </div>
-            <span className="text-white text-sm font-medium tracking-wide font-[Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif]">
-              {t("verified.app")}
-            </span>
-          </div>
-        </div>
-
-        {/* =============================================================== */}
-        {/* BANNER PROMOCIONAL - "TOP 1 do Brasil no Telegram" */}
-        {/* =============================================================== */}
-        <div className="fixed top-[35px] left-1/2 transform -translate-x-1/2 w-full max-w-md bg-gradient-to-r from-orange-500 to-red-500 z-50 transition-all duration-300">
-          <div className="flex items-center justify-center gap-2 px-4 py-2.5">
+        {/* BANNER PROMOCIONAL - "TOP 1 do Brasil no Telegram" FIXO ABAIXO DO HEADER */}
+        <div className="w-full bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 fixed top-[65px] z-30">
+          <div
+            className="flex items-center justify-center gap-2 px-4 py-2.5 cursor-pointer"
+            onClick={() => router.push(getCheckoutUrl())}
+          >
             <svg
               className="h-4 w-4 text-white flex-shrink-0"
               viewBox="0 0 24 24"
@@ -144,88 +128,83 @@ export default function PrivacyBlackPage() {
               />
             </svg>
             <span className="text-white text-xs font-medium text-center">
-              TOP 1 do Brasil no Telegram em conteúdo adulto.
+              Tops Modelos do Privacy em conteúdo adulto
             </span>
           </div>
         </div>
 
         {/* =============================================================== */}
-        {/* ÁREA PRINCIPAL DE CONTEÚDO - Margem para compensar headers fixos */}
-        {/* =============================================================== */}
-        <div className="pt-[75px]"></div>
+        {/* HEADER PRINCIPAL - Logo, nome da marca e botão de idioma - FIXO NO TOPO */}
+        <header className="border-b border-gray-700 px-4 fixed top-0 z-40 h-[65px] flex items-center w-full bg-black">
+          <div className="flex items-center justify-between w-full">
+            {/* Espaço reservado à esquerda para balanceamento */}
+            <div className="w-10 h-10" />
 
-        <div className="p-4">
-          {/* =============================================================== */}
-          {/* HEADER PRINCIPAL - Logo, nome da marca e botão de idioma */}
-          {/* =============================================================== */}
-          <div className="relative w-full flex flex-col items-center bg-black text-white">
-            <header className="bg-black border-b border-gray-700 px-4 h-[65px] flex items-center">
-              <div className="flex items-center justify-between w-full">
-                {/* Espaço reservado à esquerda para balanceamento */}
-                <div className="w-10 h-10" />
-
-                {/* Logo central com nome da marca Privacy Black */}
-                <div className="flex items-center justify-center flex-1">
-                  <button className="transition-all duration-200 hover:scale-105">
-                    <div className="flex items-center gap-[0.3rem]">
-                      <div className="flex items-center justify-center">
-                        <img
-                          alt="Privacy Black Icon"
-                          width={32}
-                          height={32}
-                          decoding="async"
-                          className="object-contain"
-                          src="./image.png"
-                        />
-                      </div>
-                      <div className="flex flex-col">
-                        <h1 className="text-2xl font-bold leading-tight italic font-['Poppins',sans-serif]">
-                          <span className="text-white">Privacy Black</span>
-                        </h1>
-                      </div>
-                    </div>
-                  </button>
+            {/* Logo central com nome da marca Privacy Black */}
+            <div className="flex items-center justify-center flex-1">
+              <button className="transition-all duration-200 hover:scale-105">
+                <div className="flex items-center gap-[0.3rem]">
+                  <div className="flex items-center justify-center">
+                    <img
+                      alt="Privacy Black Icon"
+                      width={32}
+                      height={32}
+                      decoding="async"
+                      className="object-contain"
+                      src="./image.png"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <h1 className="text-2xl font-bold leading-tight italic font-['Poppins',sans-serif]">
+                      <span className="text-white">Privacy Black</span>
+                    </h1>
+                  </div>
                 </div>
-
-                {/* Botão de seleção de idioma (🌐) */}
-                <div className="flex items-center relative">
-                  <button
-                    onClick={() => setIsLanguageModalOpen(true)}
-                    className="gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center transition-all duration-200 hover:scale-105"
-                    aria-label="Language toggle"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={24}
-                      height={24}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-gray-200"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="2" y1="12" x2="22" y2="12" />
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </header>
-
-            {/* =============================================================== */}
-            {/* CHAMADA PRINCIPAL PARA PREMIUM - Texto motivacional */}
-            {/* =============================================================== */}
-            <div className="text-center mb-6 pt-2 px-4">
-              <p className="text-sm text-gray-200 leading-relaxed">
-                {t("premium.unlock")} <br />
-                <strong>{t("models.medias")}</strong>
-                <br />
-                {t("immediate.delivery")}
-              </p>
+              </button>
             </div>
+
+            {/* Botão de seleção de idioma (🌐) */}
+            <div className="flex items-center relative">
+              <button
+                onClick={() => setIsLanguageModalOpen(true)}
+                className="gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-center transition-all duration-200 hover:scale-105"
+                aria-label="Language toggle"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={24}
+                  height={24}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-gray-200"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* =============================================================== */}
+        {/* Espaço removido pois o banner não é mais fixo */}
+        {/* ÁREA PRINCIPAL DE CONTEÚDO */}
+        <div className="p-4 pt-[105px]">
+          {/* =============================================================== */}
+          {/* CHAMADA PRINCIPAL PARA PREMIUM - Texto motivacional */}
+          {/* =============================================================== */}
+          <div className="text-center mb-6 pt-2 px-4">
+            <p className="text-sm text-gray-200 leading-relaxed">
+              {t("premium.unlock")} <br />
+              <strong>{t("models.medias")}</strong>
+              <br />
+              {t("immediate.delivery")}
+            </p>
           </div>
 
           {/* =============================================================== */}
@@ -256,7 +235,7 @@ export default function PrivacyBlackPage() {
               <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
               <path d="M12 18V6" />
             </svg>
-            {t("monthly.plan")}
+            Plano Anual R$ 19,90
           </button>
 
           {/* =============================================================== */}

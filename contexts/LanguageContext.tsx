@@ -18,7 +18,7 @@ const translations = {
     // Main content
     "premium.unlock": "Torne-se usuário premium e desbloqueie mais de",
     "models.medias": "3 mil modelos e 100 mil mídias exclusivas",
-    "immediate.delivery": "no aplicativo. Entrega imediata.",
+    "immediate.delivery": "no site. Entrega imediata.",
 
     // Premium plan
     "monthly.plan": "Plano Mensal - R$ 19,90",
@@ -58,7 +58,7 @@ const translations = {
     // Main content
     "premium.unlock": "Become a premium user and unlock more than",
     "models.medias": "3 thousand models and 100 thousand exclusive medias",
-    "immediate.delivery": "in the app. Immediate delivery.",
+    "immediate.delivery": "on the site. Immediate delivery.",
 
     // Premium plan
     "monthly.plan": "Monthly Plan - $19.90",
@@ -98,7 +98,7 @@ const translations = {
     // Main content
     "premium.unlock": "Conviértete en usuario premium y desbloquea más de",
     "models.medias": "3 mil modelos y 100 mil medios exclusivos",
-    "immediate.delivery": "en la aplicación. Entrega inmediata.",
+    "immediate.delivery": "en el sitio. Entrega inmediata.",
 
     // Premium plan
     "monthly.plan": "Plan Mensual - $19.90",

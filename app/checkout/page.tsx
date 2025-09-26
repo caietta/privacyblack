@@ -320,23 +320,8 @@ export default function CheckoutPage() {
         `}
       </Script>
       <div className="min-h-screen bg-black text-white">
-        {/* HEADER FIXO SUPERIOR - Banner de verificação do Telegram */}
-        <div className="fixed top-0 left-0 w-full bg-black h-[35px] flex items-center justify-center z-[1000] shadow-md overflow-hidden">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 flex items-center justify-center">
-              <img
-                alt="Verificado"
-                src="./verified.webp"
-                className="w-5 h-5 object-contain"
-              />
-            </div>{" "}
-            <span className="text-white text-sm font-medium tracking-wide font-[Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif]">
-              {t("verified.app")}
-            </span>
-          </div>{" "}
-        </div>
         {/* Header de navegação */}
-        <header className="bg-black border-b border-gray-700 px-4 sticky top-[35px] z-50 h-[65px] flex items-center animate-in fade-in duration-300">
+        <header className="bg-black border-b border-gray-700 px-4 sticky top-0 z-50 h-[65px] flex items-center animate-in fade-in duration-300">
           <div className="flex items-center justify-between w-full">
             {" "}
             {/* Botão Voltar */}
@@ -439,7 +424,7 @@ export default function CheckoutPage() {
               <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6 animate-in fade-in slide-in-from-bottom duration-600 delay-300 hover:shadow-lg transition-shadow">
                 <div className="text-center space-y-3">
                   <h3 className="text-lg font-semibold text-white">
-                    Plano Mensal Premium
+                    Plano Anual Premium
                   </h3>
                   <div className="text-3xl font-bold text-orange-600">
                     R$ 19,90

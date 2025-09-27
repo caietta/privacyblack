@@ -217,11 +217,38 @@ export default function PrivacyBlackPage() {
           {/* =============================================================== */}
           {/* BOTÃO PLANO PREMIUM - Chamada principal para assinatura */}
           {/* =============================================================== */}
+          <div
+            style={{
+              position: "relative",
+              width: "1px",
+              minWidth: "100%",
+              paddingBottom: "120%",
+            }}
+            className="mb-4"
+          >
+            <iframe
+              allow="autoplay"
+              className="spotlightr"
+              allowTransparency
+              style={{
+                width: "1px",
+                minWidth: "100%",
+                height: "100%",
+                position: "absolute",
+              }}
+              allowFullScreen
+              src="https://videos.cdn.spotlightr.com/watch/MTg3NzQzMQ==?fallback=true&resolution=720"
+              frameBorder="0"
+              scrolling="no"
+              name="videoPlayer"
+            />
+          </div>
+
           <button
             onClick={() => router.push(getCheckoutUrl())}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 
-                 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold 
-                 rounded-lg hover:from-orange-600 hover:to-red-600 
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2
+                 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold
+                 rounded-lg hover:from-orange-600 hover:to-red-600
                  transition-all duration-200 hover:scale-105 shadow-lg"
             type="button"
           >

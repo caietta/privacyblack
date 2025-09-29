@@ -222,14 +222,13 @@ export default function PrivacyBlackPage() {
               position: "relative",
               width: "1px",
               minWidth: "100%",
-              paddingBottom: "120%",
+              paddingBottom: "56.25%",
             }}
             className="mb-4"
           >
             <iframe
               allow="autoplay"
               className="spotlightr"
-              allowTransparency
               style={{
                 width: "1px",
                 minWidth: "100%",
@@ -237,7 +236,7 @@ export default function PrivacyBlackPage() {
                 position: "absolute",
               }}
               allowFullScreen
-              src="https://videos.cdn.spotlightr.com/watch/MTg3NzQzMQ==?fallback=true&resolution=720"
+              src="https://videos.cdn.spotlightr.com/watch/MTg3ODIxOQ==?fallback=true"
               frameBorder="0"
               scrolling="no"
               name="videoPlayer"

@@ -96,6 +96,13 @@ export default function PrivacyBlackPage() {
 
   return (
     <>
+      {/* UTM Handler Script */}
+      <Script
+        src="https://cdn.jsdelivr.net/gh/xTracky/static/utm-handler.js"
+        data-token="3f0817fd-b04a-49a5-972c-416d223ac189"
+        data-click-id-param="click_id"
+      />
+
       {/* UTMify Pixel Script */}
       <Script id="utmify-pixel" strategy="afterInteractive">
         {`

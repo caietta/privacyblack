@@ -234,8 +234,13 @@ export default function PrivacyBlackPage() {
             className="mb-4"
           >
             <iframe
-              allow="autoplay"
-              className="spotlightr"
+              src="https://player.vimeo.com/video/1125190138?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1"
+              width="3840"
+              height="2160"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="Privacy black"
               style={{
                 width: "1px",
                 minWidth: "100%",
@@ -243,10 +248,6 @@ export default function PrivacyBlackPage() {
                 position: "absolute",
               }}
               allowFullScreen
-              src="https://videos.cdn.spotlightr.com/watch/MTg3ODIxOQ==?fallback=true"
-              frameBorder="0"
-              scrolling="no"
-              name="videoPlayer"
             />
           </div>
 

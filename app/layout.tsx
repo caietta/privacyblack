@@ -28,6 +28,13 @@ export default function RootLayout({
       <head>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <script src="/telegram-web-app.js"></script>
+        <script
+          src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+          data-utmify-prevent-xcod-sck
+          data-utmify-prevent-subids
+          async
+          defer
+        ></script>
       </head>
       <Head>
         <script

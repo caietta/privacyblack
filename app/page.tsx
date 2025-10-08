@@ -134,7 +134,7 @@ export default function PresellPage() {
               onClick={() =>
                 (window.location.href = isTelegram
                   ? "/inicio?istelegram=true"
-                  : "/inicio")
+                  : "/inicio") + window.location.search
               }
             >
               🔥 Entrar Agora

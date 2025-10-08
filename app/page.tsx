@@ -132,9 +132,9 @@ export default function PresellPage() {
               size="lg"
               className="px-12 py-4 text-lg font-medium bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               onClick={() =>
-                (window.location.href = isTelegram
-                  ? "/inicio?istelegram=true"
-                  : "/inicio") + window.location.search
+                (window.location.href =
+                  (isTelegram ? "/inicio?istelegram=true" : "/inicio") +
+                  window.location.search)
               }
             >
               🔥 Entrar Agora

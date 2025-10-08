@@ -67,6 +67,14 @@ export default function PresellPage() {
         `}
       </Script>
 
+      {/* UTMify Script */}
+      <Script
+        src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+        data-utmify-prevent-xcod-sck
+        data-utmify-prevent-subids
+        strategy="afterInteractive"
+      />
+
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="max-w-2xl mx-auto text-center space-y-8">
           {/* Logo/Brand */}
@@ -124,7 +132,9 @@ export default function PresellPage() {
               size="lg"
               className="px-12 py-4 text-lg font-medium bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               onClick={() =>
-                router.push(isTelegram ? "/inicio?istelegram=true" : "/inicio")
+                (window.location.href = isTelegram
+                  ? "/inicio?istelegram=true"
+                  : "/inicio")
               }
             >
               🔥 Entrar Agora

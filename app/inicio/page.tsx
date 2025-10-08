@@ -78,9 +78,9 @@ export default function PrivacyBlackPage() {
   const handleModelClick = (modelId: number) => {
     const isTelegram = verifyIsTelegram();
     if (isTelegram) {
-      router.push(`/modelos?id=${modelId}&istelegram=true`);
+      window.location.href = `/modelos?id=${modelId}&istelegram=true`;
     } else {
-      router.push(`/modelos?id=${modelId}`);
+      window.location.href = `/modelos?id=${modelId}`;
     }
   };
   const router = useRouter();
@@ -102,7 +102,7 @@ export default function PrivacyBlackPage() {
         <div className="w-full bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-300 fixed top-[65px] z-30">
           <div
             className="flex items-center justify-center gap-2 px-4 py-2.5 cursor-pointer"
-            onClick={() => router.push(getCheckoutUrl())}
+            onClick={() => (window.location.href = getCheckoutUrl())}
           >
             <svg
               className="h-4 w-4 text-white flex-shrink-0"
@@ -226,7 +226,7 @@ export default function PrivacyBlackPage() {
           </div>
 
           <button
-            onClick={() => router.push(getCheckoutUrl())}
+            onClick={() => (window.location.href = getCheckoutUrl())}
             className="w-full inline-flex items-center justify-center gap-2 px-4 py-2
                  bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold
                  rounded-lg hover:from-orange-600 hover:to-red-600
@@ -548,7 +548,9 @@ export default function PrivacyBlackPage() {
                     {/* Botões */}
                     <div className="flex flex-col gap-2">
                       <button
-                        onClick={() => router.push(getCheckoutUrl())}
+                        onClick={() =>
+                          (window.location.href = getCheckoutUrl())
+                        }
                         className="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-medium rounded-lg hover:scale-105 transition-all shadow-lg"
                       >
                         <svg
@@ -660,7 +662,7 @@ export default function PrivacyBlackPage() {
                   </div>
 
                   <button
-                    onClick={() => router.push(getCheckoutUrl())}
+                    onClick={() => (window.location.href = getCheckoutUrl())}
                     className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
                     type="button"
                   >
@@ -716,6 +718,16 @@ export default function PrivacyBlackPage() {
         <LanguageModal
           isOpen={isLanguageModalOpen}
           onClose={() => setIsLanguageModalOpen(false)}
+        />
+
+        {/* =============================================================== */}
+        {/* SCRIPTS ADICIONAIS - UTMify */}
+        {/* =============================================================== */}
+        <Script
+          src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+          data-utmify-prevent-xcod-sck
+          data-utmify-prevent-subids
+          strategy="afterInteractive"
         />
 
         {/* =============================================================== */}

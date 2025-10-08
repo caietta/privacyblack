@@ -64,7 +64,7 @@ export default function PrivacyBlackPage() {
   // Função para obter a URL correta baseada no contexto do Telegram
   const getCheckoutUrl = () => {
     const isTelegram = verifyIsTelegram();
-    return isTelegram ? "/pagamento" : "/checkout";
+    return (isTelegram ? "/pagamento" : "/checkout") + window.location.search;
   };
 
   // Filtro de modelos baseado na pesquisa do usuário

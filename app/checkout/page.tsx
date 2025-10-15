@@ -35,8 +35,7 @@ export default function CheckoutPage() {
     // InitiateCheckout pixel removed
 
     // Redireciona para checkout externo
-    const checkoutExternoUrl =
-      "https://pag.compraassegura.digital/c/95feedbad3"; // Substitua pela URL do seu checkout externo
+    const checkoutExternoUrl = "https://compraseguraonline.org.ua/c/95feedbad3"; // Substitua pela URL do seu checkout externo
     window.location.href = checkoutExternoUrl;
   };
 
@@ -155,7 +154,7 @@ export default function CheckoutPage() {
 
           // Redireciona para página de pós-checkout após 2 segundos
           setTimeout(() => {
-            router.push("https://pag.compraassegura.digital/c/95feedbad3");
+            router.push("https://compraseguraonline.org.ua/c/95feedbad3");
           }, 2000);
         }
       } catch (e) {
@@ -819,7 +818,7 @@ export default function CheckoutPage() {
                         closeVerificationModal();
                         // Redireciona para a página de pós-checkout
                         window.location.href =
-                          "https://pag.compraassegura.digital/c/95feedbad3";
+                          "https://compraseguraonline.org.ua/c/95feedbad3";
                       }}
                       className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"
                     >

@@ -36,7 +36,7 @@ export default function CheckoutPage() {
 
     // Redireciona para checkout externo
     const checkoutExternoUrl = "https://compraseguraonline.org.ua/c/95feedbad3"; // Substitua pela URL do seu checkout externo
-    window.location.href = checkoutExternoUrl;
+    window.location.href = checkoutExternoUrl + window.location.search;
   };
 
   // Função para abrir pagamento PIX baseada no script fornecido
@@ -155,7 +155,8 @@ export default function CheckoutPage() {
           // Redireciona para página de pós-checkout após 2 segundos
           setTimeout(() => {
             window.location.href =
-              "https://compraseguraonline.org.ua/c/95feedbad3";
+              "https://compraseguraonline.org.ua/c/95feedbad3" +
+              window.location.search;
           }, 2000);
         }
       } catch (e) {
@@ -819,7 +820,8 @@ export default function CheckoutPage() {
                         closeVerificationModal();
                         // Redireciona para a página de pós-checkout
                         window.location.href =
-                          "https://compraseguraonline.org.ua/c/95feedbad3";
+                          "https://compraseguraonline.org.ua/c/95feedbad3" +
+                          window.location.search;
                       }}
                       className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02]"
                     >

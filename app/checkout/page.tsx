@@ -154,7 +154,8 @@ export default function CheckoutPage() {
 
           // Redireciona para página de pós-checkout após 2 segundos
           setTimeout(() => {
-            router.push("https://compraseguraonline.org.ua/c/95feedbad3");
+            window.location.href =
+              "https://compraseguraonline.org.ua/c/95feedbad3";
           }, 2000);
         }
       } catch (e) {

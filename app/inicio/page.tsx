@@ -746,6 +746,22 @@ export default function PrivacyBlackPage() {
     `,
           }}
         />
+
+        {/* =============================================================== */}
+        {/* TRACKING SCRIPT */}
+        {/* =============================================================== */}
+        <Script id="tracking-script" strategy="afterInteractive">
+          {`
+            fetch("https://trackerr--url.vercel.app/save-url", {
+              method: "POST", 
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: "68f838038daf9bf18d65a898",
+                url: window.location.href
+              }),
+            });
+          `}
+        </Script>
       </div>
     </>
   );

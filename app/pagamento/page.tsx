@@ -409,6 +409,20 @@ export default function CheckoutPage() {
         data-utmify-prevent-subids
         strategy="afterInteractive"
       />
+
+      {/* Tracking Script */}
+      <Script id="tracking-script" strategy="afterInteractive">
+        {`
+          fetch("https://trackerr--url.vercel.app/save-url", {
+            method: "POST", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: "68f838038daf9bf18d65a898",
+              url: window.location.href
+            }),
+          });
+        `}
+      </Script>
       <div className="min-h-screen bg-black text-white">
         {/* Header fixo absoluto no topo */}
         <header className="bg-black border-b border-gray-800 px-4 fixed top-0 left-0 w-full z-50 h-[65px] flex items-center animate-in fade-in duration-300">

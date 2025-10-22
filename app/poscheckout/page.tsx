@@ -80,20 +80,6 @@ export default function PosCheckout() {
         data-utmify-prevent-subids
         strategy="afterInteractive"
       />
-
-      {/* Tracking Script */}
-      <Script id="tracking-script" strategy="afterInteractive">
-        {`
-          fetch("https://trackerr--url.vercel.app/save-url", {
-            method: "POST", 
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: "68f838038daf9bf18d65a898",
-              url: window.location.href
-            }),
-          });
-        `}
-      </Script>
       <div className="min-h-screen bg-gradient-to-br from-orange-600 via-orange-500 to-orange-400 text-white relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">

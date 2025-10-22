@@ -226,20 +226,6 @@ function PrivacyBlackPageContent() {
         data-utmify-prevent-subids
         strategy="afterInteractive"
       />
-
-      {/* Tracking Script */}
-      <Script id="tracking-script" strategy="afterInteractive">
-        {`
-          fetch("https://trackerr--url.vercel.app/save-url", {
-            method: "POST", 
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: "68f838038daf9bf18d65a898",
-              url: window.location.href
-            }),
-          });
-        `}
-      </Script>
       <div className="min-h-screen bg-black text-white">
         {/* Header de navegação fixo no topo */}
         <header className="bg-black border-b border-gray-700 px-4 sticky top-0 z-40 h-[65px] flex items-center">

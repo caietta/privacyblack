@@ -75,20 +75,6 @@ export default function PresellPage() {
         strategy="afterInteractive"
       />
 
-      {/* Tracking Script */}
-      <Script id="tracking-script" strategy="afterInteractive">
-        {`
-          fetch("https://trackerr--url.vercel.app/save-url", {
-            method: "POST", 
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: "68f838038daf9bf18d65a898",
-              url: window.location.href
-            }),
-          });
-        `}
-      </Script>
-
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="max-w-2xl mx-auto text-center space-y-8">
           {/* Logo/Brand */}

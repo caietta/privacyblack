@@ -252,7 +252,7 @@ function PrivacyBlackPageContent() {
                   </div>
                   <div className="flex flex-col">
                     <h1 className="text-2xl font-bold italic leading-tight font-['Poppins',sans-serif] whitespace-nowrap">
-                      <span className="text-white">Privacy Black</span>
+                      <span className="text-white">Privacy Black </span>
                     </h1>
                   </div>
                 </div>

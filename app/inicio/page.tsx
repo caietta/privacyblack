@@ -332,7 +332,7 @@ export default function PrivacyBlackPage() {
                 onContextMenu={(e) => e.preventDefault()}
               >
                 <source
-                  src="https://res.cloudinary.com/dzklgj8sg/video/upload/v1761246707/Design_sem_nome_34_lyc6bd.mp4"
+                  src="https://res.cloudinary.com/dzklgj8sg/video/upload/v1761244435/Design_sem_nome_33_1_q9pcfd.mp4"
                   type="video/mp4"
                 />
                 Seu navegador não suporta vídeos HTML5.

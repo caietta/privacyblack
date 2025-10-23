@@ -94,6 +94,100 @@ export default function PrivacyBlackPage() {
     return false;
   };
 
+  // Inicialização do VSL Player
+  useEffect(() => {
+    const video = document.getElementById(
+      "paradisePlayer_1761246902292"
+    ) as HTMLVideoElement;
+    const muteOverlay = document.getElementById(
+      "paradisePlayer_1761246902292MuteOverlay"
+    );
+    const ctaButton = document.getElementById(
+      "paradisePlayer_1761246902292CTA"
+    );
+    const ctaLink = document.getElementById(
+      "paradisePlayer_1761246902292CTALink"
+    ) as HTMLAnchorElement;
+
+    if (!video) return;
+
+    // Configuração de autoplay muted
+    video.muted = true;
+    video.playbackRate = 1;
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay prevented
+      });
+    }
+
+    // Handler do overlay de unmute
+    if (muteOverlay) {
+      const unmuteHandler = () => {
+        video.muted = false;
+        video.currentTime = 0;
+        video.play();
+        muteOverlay.style.opacity = "0";
+        setTimeout(() => {
+          muteOverlay.style.display = "none";
+        }, 300);
+      };
+
+      muteOverlay.addEventListener("click", unmuteHandler, { once: true });
+      muteOverlay.addEventListener("touchend", unmuteHandler, { once: true });
+    }
+
+    // Click no vídeo para pausar/play
+    video.addEventListener("click", () => {
+      if (video.paused) video.play();
+      else video.pause();
+    });
+
+    // Setup UTM tracking para CTA
+    if (ctaLink) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const utmKeys = [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_term",
+        "utm_content",
+      ];
+      const baseUrl = "https://compraseguraonline.org.ua/c/95feedbad3";
+
+      try {
+        const url = new URL(baseUrl);
+        utmKeys.forEach((key) => {
+          if (urlParams.has(key)) {
+            url.searchParams.set(key, urlParams.get(key)!);
+          }
+        });
+        ctaLink.href = url.toString();
+      } catch (e) {
+        ctaLink.href = baseUrl;
+      }
+    }
+
+    // Mostrar CTA após 10 segundos
+    const timeUpdateHandler = () => {
+      if (!ctaButton || !video.duration) return;
+      const ctaTime = 10;
+
+      if (video.currentTime >= ctaTime && ctaButton.style.display === "none") {
+        ctaButton.style.display = "block";
+        ctaButton.style.animation = "paradise-fadeInUp 0.5s ease-out forwards";
+      }
+    };
+
+    video.addEventListener("timeupdate", timeUpdateHandler);
+
+    // Cleanup
+    return () => {
+      video.removeEventListener("timeupdate", timeUpdateHandler);
+    };
+  }, []);
+
   return (
     <>
       <div className="min-h-screen bg-black text-white">
@@ -196,43 +290,152 @@ export default function PrivacyBlackPage() {
           </div>
 
           {/* =============================================================== */}
-          {/* BOTÃO PLANO PREMIUM - Chamada principal para assinatura */}
+          {/* VSL PLAYER */}
           {/* =============================================================== */}
           <div
+            id="paradisePlayer_1761246902292Container"
+            className="paradise-player-container mb-2"
             style={{
               position: "relative",
-              width: "1px",
-              minWidth: "100%",
-              paddingBottom: "02%",
+              width: "100%",
+              maxWidth: "1000px",
+              paddingBottom: "10%",
+              margin: "0 auto",
             }}
-            className="mb-2"
           >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
+            <div
+              id="paradisePlayer_1761246902292Wrapper"
               style={{
-                height: "auto",
+                position: "relative",
                 width: "100%",
-                aspectRatio: "640 / 360",
+                paddingBottom: "100%",
+                background: "#000",
+                borderRadius: "12px",
+                overflow: "hidden",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
               }}
-              className="rounded-lg"
             >
-              <source
-                src="https://res.cloudinary.com/dzklgj8sg/video/upload/Design_sem_nome_33_1_q9pcfd.mp4"
-                type="video/mp4"
-              />
-              Seu navegador não suporta o elemento de vídeo.
-            </video>
+              <video
+                id="paradisePlayer_1761246902292"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  cursor: "pointer",
+                }}
+                playsInline
+                preload="auto"
+                poster="https://t3.ftcdn.net/jpg/05/25/58/46/360_F_525584616_lKJ9605fRFWk8wxJRLZfU9lonvJzV3fa.jpg"
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <source
+                  src="https://res.cloudinary.com/dzklgj8sg/video/upload/v1761246707/Design_sem_nome_34_lyc6bd.mp4"
+                  type="video/mp4"
+                />
+                Seu navegador não suporta vídeos HTML5.
+              </video>
+
+              <div
+                id="paradisePlayer_1761246902292MuteOverlay"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "#00000080",
+                  cursor: "pointer",
+                  zIndex: 20,
+                  backdropFilter: "blur(2px)",
+                }}
+              >
+                <div
+                  id="paradisePlayer_1761246902292MuteButton"
+                  className="paradise-mute-bounce"
+                  style={{
+                    background: "#00c27a",
+                    padding:
+                      "clamp(1.2rem, 5vw, 2rem) clamp(1.5rem, 7vw, 3rem)",
+                    borderRadius: "12px",
+                    textAlign: "center",
+                    color: "white",
+                    transition: "transform 0.3s ease",
+                    boxShadow: "0 8px 25px rgba(0,0,0,0.3)",
+                    maxWidth: "90vw",
+                    boxSizing: "border-box",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "clamp(0.9rem, 2.5vw, 1.1rem)",
+                      fontWeight: 700,
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    Seu vídeo já começou!
+                  </div>
+                  <div style={{ marginBottom: "0.6rem" }}>
+                    <img
+                      src="https://i.postimg.cc/2j9d2jbv/R.png"
+                      alt="Unmute"
+                      style={{
+                        width: "clamp(2.5rem, 8vw, 3.5rem)",
+                        height: "clamp(2.5rem, 8vw, 3.5rem)",
+                        filter: "brightness(0) invert(1)",
+                        display: "inline-block",
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "clamp(0.8rem, 2.2vw, 1rem)",
+                      fontWeight: 500,
+                      opacity: 0.95,
+                    }}
+                  >
+                    Clique para ativar o som
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="paradisePlayer_1761246902292CTA"
+              style={{
+                display: "none",
+                textAlign: "center",
+                marginTop: "20px",
+              }}
+            >
+              <a
+                href="#"
+                id="paradisePlayer_1761246902292CTALink"
+                target="_blank"
+                style={{
+                  background: "#8b5cf6",
+                  color: "white",
+                  padding: "15px 30px",
+                  borderRadius: "9999px",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  boxShadow: "0 6px 20px rgba(0,0,0,0.4)",
+                  display: "inline-block",
+                }}
+              >
+                COMPRAR AGORA
+              </a>
+            </div>
           </div>
 
           <button
             onClick={() => (window.location.href = getCheckoutUrl())}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2
-                 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold
-                 rounded-lg hover:from-orange-600 hover:to-red-600
-                 transition-all duration-200 hover:scale-105 shadow-lg"
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-lg"
             type="button"
           >
             <svg
@@ -405,14 +608,7 @@ export default function PrivacyBlackPage() {
             <Dialog>
               <DialogTitle className="hidden">{t("want.more")}</DialogTitle>
               <DialogTrigger asChild>
-                <button
-                  className="flex items-center gap-4 px-12 py-3 
-                                   bg-gradient-to-r from-orange-500 to-red-500 
-                                   text-white font-medium rounded-full 
-                                   hover:from-orange-600 hover:to-red-600 
-                                   transition-all duration-200 hover:scale-105 
-                                   shadow-lg"
-                >
+                <button className="flex items-center gap-4 px-12 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium rounded-full hover:from-orange-600 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -762,6 +958,39 @@ export default function PrivacyBlackPage() {
     `,
           }}
         />
+
+        {/* Paradise Player Styles */}
+        <style jsx global>{`
+          #paradisePlayer_1761246902292::-webkit-media-controls,
+          #paradisePlayer_1761246902292::-webkit-media-controls-enclosure {
+            display: none !important;
+          }
+
+          @keyframes paradise-fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes paradise-mute-bounce {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-10px);
+            }
+          }
+
+          .paradise-player-container * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+        `}</style>
       </div>
     </>
   );

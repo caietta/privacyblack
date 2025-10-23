@@ -210,6 +210,7 @@ export default function PrivacyBlackPage() {
             <video
               autoPlay
               loop
+              muted
               playsInline
               style={{
                 height: "auto",

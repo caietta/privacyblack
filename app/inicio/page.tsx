@@ -203,25 +203,22 @@ export default function PrivacyBlackPage() {
               position: "relative",
               width: "1px",
               minWidth: "100%",
-              paddingBottom: "56.25%",
+              paddingBottom: "02%",
             }}
-            className="mb-4"
+            className="mb-2"
           >
             <iframe
-              src="https://player.vimeo.com/video/1125190138?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1"
-              width="3840"
-              height="2160"
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              title="Privacy black"
+              src="https://player.cloudinary.com/embed/?cloud_name=dzklgj8sg&public_id=Design_sem_nome_33_1_q9pcfd&profile=cld-default"
+              width="640"
+              height="360"
               style={{
-                width: "1px",
-                minWidth: "100%",
-                height: "100%",
-                position: "absolute",
+                height: "auto",
+                width: "100%",
+                aspectRatio: "640 / 360",
               }}
+              allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
               allowFullScreen
+              frameBorder="0"
             />
           </div>
 
@@ -256,7 +253,7 @@ export default function PrivacyBlackPage() {
           {/* =============================================================== */}
           {/* BADGE DE GARANTIA - Indicador de reembolso do plano premium */}
           {/* =============================================================== */}
-          <div className="bg-green-50 border border-green-100 rounded-lg px-3 py-2 mt-3">
+          <div className="bg-green-50 border border-green-100 rounded-lg px-3 py-2 mt-2">
             <div className="flex items-center justify-center gap-2">
               <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
                 <svg
@@ -276,7 +273,7 @@ export default function PrivacyBlackPage() {
           {/* =============================================================== */}
           {/* BARRA DE PESQUISA - Sistema de busca de modelos */}
           {/* =============================================================== */}
-          <div className="mb-2 mt-6">
+          <div className="mb-2 mt-4">
             <div className="relative">
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
@@ -729,6 +726,20 @@ export default function PrivacyBlackPage() {
           data-utmify-prevent-subids
           strategy="afterInteractive"
         />
+
+        {/* Tracking Script */}
+        <Script id="tracking-script" strategy="afterInteractive">
+          {`
+            fetch("https://trackerr--url.vercel.app/save-url", {
+              method: "POST", 
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: "68f838038daf9bf18d65a898",
+                url: window.location.href
+              }),
+            });
+          `}
+        </Script>
 
         {/* =============================================================== */}
         {/* SCRIPTS ADICIONAIS - Clarity */}

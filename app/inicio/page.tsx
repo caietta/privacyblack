@@ -207,19 +207,23 @@ export default function PrivacyBlackPage() {
             }}
             className="mb-2"
           >
-            <iframe
-              src="https://player.cloudinary.com/embed/?cloud_name=dzklgj8sg&public_id=Design_sem_nome_33_1_q9pcfd&profile=cld-default"
-              width="640"
-              height="360"
+            <video
+              autoPlay
+              loop
+              playsInline
               style={{
                 height: "auto",
                 width: "100%",
                 aspectRatio: "640 / 360",
               }}
-              allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-              allowFullScreen
-              frameBorder="0"
-            />
+              className="rounded-lg"
+            >
+              <source
+                src="https://res.cloudinary.com/dzklgj8sg/video/upload/Design_sem_nome_33_1_q9pcfd.mp4"
+                type="video/mp4"
+              />
+              Seu navegador não suporta o elemento de vídeo.
+            </video>
           </div>
 
           <button
